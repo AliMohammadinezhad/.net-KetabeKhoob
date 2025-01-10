@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Common;
+namespace Common.Domain;
 
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
 public class IgnoreMemberAttribute : Attribute
@@ -13,9 +13,9 @@ public abstract class BaseValueObject : IEquatable<BaseValueObject>
 
     public static bool operator ==(BaseValueObject obj1, BaseValueObject obj2)
     {
-        if (object.Equals(obj1, null))
+        if (Equals(obj1, null))
         {
-            if (object.Equals(obj2, null))
+            if (Equals(obj2, null))
             {
                 return true;
             }
@@ -44,23 +44,23 @@ public abstract class BaseValueObject : IEquatable<BaseValueObject>
 
     private bool PropertiesAreEqual(object obj, PropertyInfo p)
     {
-        return object.Equals(p.GetValue(this, null), p.GetValue(obj, null));
+        return Equals(p.GetValue(this, null), p.GetValue(obj, null));
     }
 
     private bool FieldsAreEqual(object obj, FieldInfo f)
     {
-        return object.Equals(f.GetValue(this), f.GetValue(obj));
+        return Equals(f.GetValue(this), f.GetValue(obj));
     }
 
     private IEnumerable<PropertyInfo> GetProperties()
     {
-        if (this.properties == null)
+        if (properties == null)
         {
-            this.properties = GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
+            properties = GetType().GetProperties(BindingFlags.Instance | BindingFlags.Public)
                 .Where(p => !Attribute.IsDefined(p, typeof(IgnoreMemberAttribute))).ToList();
         }
 
-        return this.properties;
+        return properties;
     }
 
     private IEnumerable<FieldInfo> GetFields()

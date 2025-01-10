@@ -1,6 +1,5 @@
-﻿using Common;
-using Common.Domain;
-using Common.Exceptions;
+﻿using Common.Domain;
+using Common.Domain.Exceptions;
 
 namespace Shop.Domain.UserAgg;
 

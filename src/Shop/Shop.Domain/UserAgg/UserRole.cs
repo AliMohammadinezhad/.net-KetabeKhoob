@@ -1,4 +1,5 @@
 ﻿using Common;
+using Common.Domain;
 
 namespace Shop.Domain.UserAgg;
 

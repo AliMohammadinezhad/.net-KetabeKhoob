@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Common;
+namespace Common.Domain;
 
-public class AggregateRoot:BaseEntity
+public class AggregateRoot : BaseEntity
 {
     [NotMapped]
     public List<BaseDomainEvent> DomainEvents { get; } = [];

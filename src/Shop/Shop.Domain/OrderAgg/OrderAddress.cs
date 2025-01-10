@@ -15,6 +15,10 @@ public class OrderAddress : BaseEntity
     public string NationalCode { get; private set; }
     public Order Order { get; private set; }
 
+    private OrderAddress()
+    {
+        
+    }
     public OrderAddress(
         long orderId,
         string shire,

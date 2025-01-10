@@ -10,8 +10,8 @@ public class Role : AggregateRoot
 
     private Role()
     {
-        
     }
+
     public Role(string title)
     {
         NullOrEmptyDomainDataException.CheckString(title, nameof(title));

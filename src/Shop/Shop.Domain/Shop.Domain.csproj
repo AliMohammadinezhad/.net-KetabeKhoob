@@ -13,7 +13,11 @@
   <ItemGroup>
     <Folder Include="CategoryAgg\Services\" />
     <Folder Include="OrderAgg\Events\" />
+    <Folder Include="OrderAgg\Repository\" />
     <Folder Include="OrderAgg\ValueObjects\" />
+    <Folder Include="RoleAgg\Repository\" />
+    <Folder Include="SellerAgg\Repository\" />
+    <Folder Include="UserAgg\Repository\" />
   </ItemGroup>
 
 </Project>

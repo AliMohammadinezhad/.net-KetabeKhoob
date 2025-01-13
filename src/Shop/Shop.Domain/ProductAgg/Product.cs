@@ -88,7 +88,7 @@ public class Product : AggregateRoot
         Specifications = specifications;
     }
 
-    public void Guard(
+    private void Guard(
         string title,
         string imageName,
         string slug,

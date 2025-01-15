@@ -16,7 +16,7 @@ public class Comment : AggregateRoot
     {
     }
 
-    public Comment(long userId, long productId, string text, CommentStatus status)
+    public Comment(long userId, long productId, string text)
     {
         NullOrEmptyDomainDataException.CheckString(text, nameof(text));
         UserId = userId;

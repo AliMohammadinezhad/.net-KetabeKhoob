@@ -4,4 +4,5 @@ namespace Shop.Domain.OrderAgg.Repository;
 
 public interface IOrderRepository : IBaseRepository<Order>
 {
+    Task<Order?> GetCurrentUserOrderById(long userId);
 }

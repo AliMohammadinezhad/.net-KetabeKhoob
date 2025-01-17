@@ -31,8 +31,10 @@ public class Product : AggregateRoot
         long subCategoryId,
         long secondarySubCategoryId,
         string slug,
-        SeoData seoData)
+        SeoData seoData,
+        IProductDomainService domainService)
     {
+        Guard(title, imageName, slug, description, domainService);
         Title = title;
         ImageName = imageName;
         Description = description;

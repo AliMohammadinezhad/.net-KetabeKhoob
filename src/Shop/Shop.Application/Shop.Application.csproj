@@ -12,8 +12,7 @@
     <Folder Include="Categories\AddChild\" />
     <Folder Include="Comments\Create\" />
     <Folder Include="Comments\Edit\" />
-    <Folder Include="Orders\ChangeCount\" />
-    <Folder Include="Orders\RemoveItem\" />
+    <Folder Include="Orders\DecreaseItemCount\" />
     <Folder Include="Products\Create\" />
     <Folder Include="Products\Edit\" />
     <Folder Include="Products\AddImage\" />

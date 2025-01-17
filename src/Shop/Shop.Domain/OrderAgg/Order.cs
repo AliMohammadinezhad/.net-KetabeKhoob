@@ -1,6 +1,7 @@
 ﻿using Common.Domain;
 using Common.Domain.Exceptions;
 using Shop.Domain.OrderAgg.Enums;
+using Shop.Domain.OrderAgg.Services;
 using Shop.Domain.OrderAgg.ValueObjects;
 
 namespace Shop.Domain.OrderAgg;
@@ -42,15 +43,39 @@ public class Order : AggregateRoot
         Items = new List<OrderItem>();
     }
 
-    public void AddItem(OrderItem item)
+    public void IncreaseItemCount(long itemId, int count, IOrderDomainService domainService)
+    {
+        ChangeOrderGuard();
+        var currentItem = Items.FirstOrDefault(x => x.InventoryId == itemId);
+        if (currentItem is null)
+            throw new NullOrEmptyDomainDataException();
+
+        currentItem.IncreaseCount(count, domainService);
+    }
+
+    public void DecreaseItemCount(long itemId, int count)
+    {
+        ChangeOrderGuard();
+        var currentItem = Items.FirstOrDefault(x => x.InventoryId == itemId);
+        if (currentItem is null)
+            throw new NullOrEmptyDomainDataException();
+
+        currentItem.DecreaseCount(count);
+    }
+
+    public void AddItem(OrderItem item, IOrderDomainService domainService)
     {
         ChangeOrderGuard();
         var oldItem = Items.FirstOrDefault(x => x.InventoryId == item.InventoryId);
         if (oldItem is not null)
         {
-            oldItem.ChangeCount(item.Count + oldItem.Count);
+            oldItem.ChangeCount(item.Count + oldItem.Count, domainService);
             return;
         }
+
+        if (!domainService.IsOrderItemExistInInventory(item.InventoryId))
+            return;
+        
         Items.Add(item);
     }
 
@@ -62,14 +87,14 @@ public class Order : AggregateRoot
             Items.Remove(currentItem);
     }
 
-    public void ChangeCountItem(long itemId, int newCount)
+    public void ChangeCountItem(long itemId, int newCount, IOrderDomainService domainService)
     {
         ChangeOrderGuard();
         var currentItem = Items.FirstOrDefault(x => x.Id == itemId);
         if (currentItem is null)
             throw new NullOrEmptyDomainDataException();
 
-        currentItem.ChangeCount(newCount);
+        currentItem.ChangeCount(newCount, domainService);
     }
 
     public void ChangeStatus(OrderStatus status)
@@ -87,6 +112,6 @@ public class Order : AggregateRoot
     private void ChangeOrderGuard()
     {
         if (Status != OrderStatus.Pending)
-            throw new InvalidDomainDataException("امکان ثبت محصول در این سفارش وجود ندارد.");
+            throw new InvalidDomainDataException("امکان ویرایش در این سفارش وجود ندارد.");
     }
 }

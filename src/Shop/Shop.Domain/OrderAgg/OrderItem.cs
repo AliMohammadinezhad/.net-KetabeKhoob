@@ -1,5 +1,6 @@
 ﻿using Common.Domain;
 using Common.Domain.Exceptions;
+using Shop.Domain.OrderAgg.Services;
 
 namespace Shop.Domain.OrderAgg;
 
@@ -15,18 +16,33 @@ public class OrderItem : BaseEntity
     {
         
     }
-    public OrderItem(long inventoryId, int count, int price)
+    public OrderItem(long inventoryId, int count, int price, IOrderDomainService domainService)
     {
         PriceGuard(price);
-        CountGuard(count);
+        CountGuard(count, domainService);
         InventoryId = inventoryId;
         Count = count;
         Price = price;
     }
 
-    public void ChangeCount(int newCount)
+    public void IncreaseCount(int count, IOrderDomainService domainService)
     {
-        CountGuard(newCount);
+        if(domainService.IsWantedOrderItemCountExistInInventory(InventoryId, count))
+            Count += count;
+    }
+
+    public void DecreaseCount(int count)
+    {
+        if (Count == 1)
+            return;
+        if ((Count - count) <= 0)
+            return;
+        Count -= count;
+    }
+
+    public void ChangeCount(int newCount, IOrderDomainService domainService)
+    {
+        CountGuard(newCount, domainService);
         Count = newCount;
     }
 
@@ -43,9 +59,13 @@ public class OrderItem : BaseEntity
     }
 
 
-    private void CountGuard(int newCount)
+    private void CountGuard(int newCount, IOrderDomainService domainService)
     {
         if (newCount < 1)
             throw new InvalidDomainDataException("تعداد کالا نامعتبر است.");
+
+        if (domainService.IsWantedOrderItemCountExistInInventory(InventoryId, newCount))
+            throw new InvalidDomainDataException("تعداد کالای خواسته شده در انبار موجود نیست.");
+
     }
 }

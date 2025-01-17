@@ -5,7 +5,7 @@ namespace Shop.Domain.OrderAgg;
 public class OrderAddress : BaseEntity
 {
     public long OrderId { get; internal set; }
-    public string Shire { get; private set; }
+    public string Province { get; private set; }
     public string City { get; private set; }
     public string PostalCode { get; private set; }
     public string PostalAddress { get; private set; }
@@ -21,7 +21,7 @@ public class OrderAddress : BaseEntity
     }
     public OrderAddress(
         long orderId,
-        string shire,
+        string province,
         string city,
         string postalCode,
         string postalAddress,
@@ -31,7 +31,7 @@ public class OrderAddress : BaseEntity
         string nationalCode)
     {
         OrderId = orderId;
-        Shire = shire;
+        Province = province;
         City = city;
         PostalCode = postalCode;
         PostalAddress = postalAddress;

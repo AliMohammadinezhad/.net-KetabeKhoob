@@ -1,6 +1,7 @@
 ﻿using Common.Application;
 using Shop.Domain.OrderAgg;
 using Shop.Domain.OrderAgg.Repository;
+using Shop.Domain.OrderAgg.Services;
 using Shop.Domain.SellerAgg.Repository;
 
 namespace Shop.Application.Orders.AddItem;
@@ -9,11 +10,13 @@ public class AddOrderItemCommandHandler : IBaseCommandHandler<AddOrderItemComman
 {
     private readonly IOrderRepository _orderRepository;
     private readonly ISellerRepository _sellerRepository;
+    private readonly IOrderDomainService _orderDomainService;
 
-    public AddOrderItemCommandHandler(IOrderRepository orderRepository, ISellerRepository sellerRepository)
+    public AddOrderItemCommandHandler(IOrderRepository orderRepository, ISellerRepository sellerRepository, IOrderDomainService orderDomainService)
     {
         _orderRepository = orderRepository;
         _sellerRepository = sellerRepository;
+        _orderDomainService = orderDomainService;
     }
 
     public async Task<OperationResult> Handle(AddOrderItemCommand request, CancellationToken cancellationToken)
@@ -27,7 +30,7 @@ public class AddOrderItemCommandHandler : IBaseCommandHandler<AddOrderItemComman
 
         var order = await _orderRepository.GetCurrentUserOrderById(request.UserId) ?? new Order(request.UserId);
 
-        order.AddItem(new OrderItem(request.InventoryId, request.Count, inventory.Price));
+        order.AddItem(new OrderItem(request.InventoryId, request.Count, inventory.Price, _orderDomainService), _orderDomainService);
         
         if(ItemCountBiggerThanInventoryCount(inventory, order))
             return OperationResult.Error("تعداد محصولات درخواستی بیشتر از موجودی میباشد.");

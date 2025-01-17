@@ -34,7 +34,8 @@ public class Product : AggregateRoot
         SeoData seoData,
         IProductDomainService domainService)
     {
-        Guard(title, imageName, slug, description, domainService);
+        NullOrEmptyDomainDataException.CheckString(imageName, nameof(imageName));
+        Guard(title, slug, description, domainService);
         Title = title;
         ImageName = imageName;
         Description = description;
@@ -48,7 +49,6 @@ public class Product : AggregateRoot
 
     public void Edit(
         string title,
-        string imageName,
         string description,
         long categoryId,
         long subCategoryId,
@@ -57,9 +57,8 @@ public class Product : AggregateRoot
         SeoData seoData,
         IProductDomainService domainService)
     {
-        Guard(title, imageName,slug, description,domainService);
+        Guard(title, slug, description,domainService);
         Title = title;
-        ImageName = imageName;
         Description = description;
         CategoryId = categoryId;
         SubCategoryId = subCategoryId;
@@ -68,6 +67,11 @@ public class Product : AggregateRoot
         SeoData = seoData;
     }
 
+    public void SetProductImage(string imageName)
+    {
+        NullOrEmptyDomainDataException.CheckString(imageName, nameof(imageName));
+        ImageName = imageName;
+    }
 
     public void AddImage(ProductImage image)
     {
@@ -92,14 +96,12 @@ public class Product : AggregateRoot
 
     private void Guard(
         string title,
-        string imageName,
         string slug,
         string description,
         IProductDomainService domainService
     )
     {
         NullOrEmptyDomainDataException.CheckString(title, nameof(title));
-        NullOrEmptyDomainDataException.CheckString(imageName, nameof(imageName));
         NullOrEmptyDomainDataException.CheckString(slug, nameof(slug));
         NullOrEmptyDomainDataException.CheckString(description, nameof(description));
         

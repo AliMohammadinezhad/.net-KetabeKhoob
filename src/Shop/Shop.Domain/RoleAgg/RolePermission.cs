@@ -10,6 +10,20 @@ public class RolePermission : BaseEntity
 
     private RolePermission()
     {
-        
+    }
+
+    private RolePermission(Permission permission)
+    {
+        Permission = permission;
+    }
+
+    public static RolePermission CreateRolePermission()
+    {
+        return new RolePermission();
+    }
+
+    public static RolePermission CreateRolePermission(Permission permission)
+    {
+        return new RolePermission(permission);
     }
 }

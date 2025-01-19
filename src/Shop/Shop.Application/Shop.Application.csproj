@@ -15,7 +15,6 @@
     <Folder Include="_Utilities\" />
     <Folder Include="Orders\DecreaseItemCount\" />
     <Folder Include="Products\AddImage\" />
-    <Folder Include="Products\RemoveImage\" />
     <Folder Include="Roles\Create\" />
     <Folder Include="Roles\Edit\" />
     <Folder Include="Sellers\Create\" />

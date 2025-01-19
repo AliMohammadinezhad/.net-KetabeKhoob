@@ -79,13 +79,14 @@ public class Product : AggregateRoot
         Images.Add(image);
     }
 
-    public void RemoveImage(long imageId)
+    public string RemoveImage(long imageId)
     {
         var image = Images.Find(x => x.Id == imageId);
         if (image is null)
-            return;
+            throw new NullOrEmptyDomainDataException("عکس یافت نشد.");
 
         Images.Remove(image);
+        return image.ImageName;
     }
 
     public void SetSpecification(List<ProductSpecification> specifications)

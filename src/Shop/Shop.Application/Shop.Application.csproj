@@ -17,12 +17,6 @@
     <Folder Include="Products\AddImage\" />
     <Folder Include="Roles\Create\" />
     <Folder Include="Sellers\EditInventory\" />
-    <Folder Include="SiteEntities\Banner\Create\" />
-    <Folder Include="SiteEntities\Banner\Edit\" />
-    <Folder Include="SiteEntities\Banner\Delete\" />
-    <Folder Include="SiteEntities\Slider\Create\" />
-    <Folder Include="SiteEntities\Slider\Edit\" />
-    <Folder Include="SiteEntities\Slider\Delete\" />
     <Folder Include="Users\Create\" />
     <Folder Include="Users\Edit\" />
     <Folder Include="Users\AddAddress\" />

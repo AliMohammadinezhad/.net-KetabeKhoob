@@ -53,22 +53,14 @@ public class Seller : AggregateRoot
         Inventories.Add(inventory);
     }
 
-    public void EditInventory(SellerInventory inventory)
-    {
-        var currentInventory = Inventories.FirstOrDefault(p => p.Id == inventory.Id);
-        if (currentInventory is null)
-            return;
-        Inventories.Remove(currentInventory);
-        Inventories.Add(inventory);
-    }
-
-    public void DeleteInventory(long inventoryId)
+    public void EditInventory(long inventoryId, int count, int price, int? discountPercentage)
     {
         var currentInventory = Inventories.FirstOrDefault(p => p.Id == inventoryId);
         if (currentInventory is null)
-            throw new NullOrEmptyDomainDataException("محصول یافت نشد.");
+            return;
 
-        Inventories.Remove(currentInventory);
+        // TODO: check the validity of the data.
+        currentInventory.Edit(count, price, discountPercentage);
     }
 
     private void Guard(string shopName, string nationalCode)

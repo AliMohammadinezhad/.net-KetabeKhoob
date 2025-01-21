@@ -16,8 +16,6 @@
     <Folder Include="Orders\DecreaseItemCount\" />
     <Folder Include="Products\AddImage\" />
     <Folder Include="Roles\Create\" />
-    <Folder Include="Sellers\ChangeStatus\" />
-    <Folder Include="Sellers\AddInventory\" />
     <Folder Include="Sellers\EditInventory\" />
     <Folder Include="Sellers\DeleteInventory\" />
     <Folder Include="SiteEntities\Banner\Create\" />

@@ -1,6 +1,7 @@
 ﻿using Common.Domain;
 using Common.Domain.Exceptions;
 using Shop.Domain.SellerAgg.Enums;
+using Shop.Domain.SellerAgg.Services;
 
 namespace Shop.Domain.SellerAgg;
 
@@ -17,13 +18,15 @@ public class Seller : AggregateRoot
     {
     }
 
-    public Seller(long userId, string shopName, string nationalCode)
+    public Seller(long userId, string shopName, string nationalCode, ISellerDomainService service)
     {
         Guard(shopName, nationalCode);
         UserId = userId;
         ShopName = shopName;
         NationalCode = nationalCode;
         Inventories = new List<SellerInventory>();
+        if (service.CheckSellerInformation(this) == false)
+            throw new InvalidDomainDataException("اطلاعات فروشنده تکراری است.");
     }
 
     public void ChangeStatus(SellerStatus status)
@@ -32,9 +35,12 @@ public class Seller : AggregateRoot
         LastUpdate = DateTime.Now;
     }
 
-    public void Edit(string shopName, string nationalCode)
+    public void Edit(string shopName, string nationalCode, ISellerDomainService service)
     {
         Guard(shopName, nationalCode);
+        if(nationalCode != NationalCode)
+            if (service.NationalCodeExistInDataBase(nationalCode))
+                throw new InvalidDomainDataException("کد ملی متعلق به شخص دیگری است.");
         ShopName = shopName;
         NationalCode = nationalCode;
     }

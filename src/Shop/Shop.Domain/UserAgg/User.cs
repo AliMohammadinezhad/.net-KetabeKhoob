@@ -85,14 +85,14 @@ public class User : AggregateRoot
         Addresses.Remove(currentAddress);
     }
 
-    public void EditAddress(UserAddress address)
+    public void EditAddress(UserAddress address, long addressId)
     {
-        var oldAddress = Addresses.FirstOrDefault(a => a.Id == address.Id);
+        var oldAddress = Addresses.FirstOrDefault(a => a.Id == addressId);
         if(oldAddress is null)
             throw new NullOrEmptyDomainDataException("Address Not Found");
-
-        Addresses.Remove(oldAddress);
-        Addresses.Add(address);
+        
+        oldAddress.Edit(address.Shire, address.City, address.PostalCode, address.PostalAddress,
+            address.PhoneNumber, address.Name, address.Family, address.NationalCode);
     }
 
     public void ChargeWallet(Wallet wallet)
@@ -114,7 +114,7 @@ public class User : AggregateRoot
         NullOrEmptyDomainDataException.CheckString(phoneNumber, nameof(phoneNumber));
         NullOrEmptyDomainDataException.CheckString(email, nameof(email));
         
-        if (phoneNumber.Length != 11)
+        if (phoneNumber.Length != 11 || string.IsNullOrWhiteSpace(phoneNumber))
             throw new InvalidDomainDataException("شماره موبایل نامعتبر است.");
 
         if(email.IsValidEmail() == false)

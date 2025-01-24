@@ -12,6 +12,7 @@ public class User : AggregateRoot
     public string PhoneNumber { get; private set; }
     public string Email { get; private set; }
     public string Password { get; private set; }
+    public string AvatarName { get; private set; }
     public Gender Gender { get; private set; }
     public List<UserRole> UserRoles { get; private set; }
     public List<Wallet> Wallets { get; private set; }
@@ -28,9 +29,9 @@ public class User : AggregateRoot
         string email,
         string password,
         Gender gender,
-        IDomainUserService domainService)
+        IUserDomainService userDomainService)
     {
-        Guard(phoneNumber, email, domainService);
+        Guard(phoneNumber, email, userDomainService);
         Name = name;
         Family = family;
         PhoneNumber = phoneNumber;
@@ -46,19 +47,27 @@ public class User : AggregateRoot
         string phoneNumber,
         string email,
         Gender gender,
-        IDomainUserService domainService)
+        IUserDomainService userDomainService)
     {
-        Guard(phoneNumber, email, domainService);
+        Guard(phoneNumber, email, userDomainService);
         Name = name;
         Family = family;
         PhoneNumber = phoneNumber;
         Email = email;
         Gender = gender;
+        AvatarName = "avatar.png";
     }
 
-    public static User RegisterUser(string phoneNumber, string email, string password, IDomainUserService domainService)
+    public static User RegisterUser(string phoneNumber, string email, string password, IUserDomainService userDomainService)
     {
-        return new User("", "", phoneNumber, email, password, Gender.None, domainService);
+        return new User("", "", phoneNumber, email, password, Gender.None, userDomainService);
+    }
+
+    public void SetAvatar(string imageName)
+    {
+        if (string.IsNullOrWhiteSpace(imageName))
+            imageName = "avatar.png";
+        AvatarName = imageName;
     }
 
     public void AddAddress(UserAddress address)
@@ -100,7 +109,7 @@ public class User : AggregateRoot
     }
 
 
-    private void Guard(string phoneNumber, string email, IDomainUserService domainService)
+    private void Guard(string phoneNumber, string email, IUserDomainService userDomainService)
     {
         NullOrEmptyDomainDataException.CheckString(phoneNumber, nameof(phoneNumber));
         NullOrEmptyDomainDataException.CheckString(email, nameof(email));
@@ -112,11 +121,11 @@ public class User : AggregateRoot
             throw new InvalidDomainDataException("ایمیل نامعتبر است.");
 
         if(phoneNumber != PhoneNumber)
-            if (domainService.IsPhoneNumberExist(phoneNumber))
+            if (userDomainService.IsPhoneNumberExist(phoneNumber))
                 throw new InvalidDomainDataException("شماره موبایل تکراری است.");
 
         if (email != Email)
-            if (domainService.IsEmailExist(email))
+            if (userDomainService.IsEmailExist(email))
                 throw new InvalidDomainDataException("ایمیل تکراری است.");
 
     }

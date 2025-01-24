@@ -21,7 +21,6 @@ public class Wallet : BaseEntity
         int price,
         string description,
         bool isFinally,
-        DateTime? finallyDate,
         WalletType type)
     {
         if (price < 500)
@@ -30,8 +29,9 @@ public class Wallet : BaseEntity
         Price = price;
         Description = description;
         IsFinally = isFinally;
-        FinallyDate = finallyDate;
         Type = type;
+        if (IsFinally)
+            FinallyDate = DateTime.Now;
     }
 
     public void Finally(string refCode)

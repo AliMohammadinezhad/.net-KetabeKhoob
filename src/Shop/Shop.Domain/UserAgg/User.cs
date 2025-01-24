@@ -58,9 +58,9 @@ public class User : AggregateRoot
         AvatarName = "avatar.png";
     }
 
-    public static User RegisterUser(string phoneNumber, string email, string password, IUserDomainService userDomainService)
+    public static User RegisterUser(string phoneNumber, string password, IUserDomainService userDomainService)
     {
-        return new User("", "", phoneNumber, email, password, Gender.None, userDomainService);
+        return new User("", "", phoneNumber, null,password, Gender.None, userDomainService);
     }
 
     public void SetAvatar(string imageName)

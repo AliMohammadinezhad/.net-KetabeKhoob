@@ -9,7 +9,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         // Aggregate Root
-        builder.ToTable("Users", "users");
+        builder.ToTable("Users", "user");
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.AvatarName)

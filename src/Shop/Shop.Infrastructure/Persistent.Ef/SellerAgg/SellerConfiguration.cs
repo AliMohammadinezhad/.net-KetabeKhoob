@@ -9,7 +9,7 @@ public class SellerConfiguration : IEntityTypeConfiguration<Seller>
     public void Configure(EntityTypeBuilder<Seller> builder)
     {
         // Base Entity
-        builder.ToTable("Sellers", "sellers");
+        builder.ToTable("Sellers", "seller");
         builder.HasKey(x => x.Id);
 
         builder.Property(x => x.NationalCode)

@@ -10,9 +10,6 @@
     <Folder Include="Categories\GetByParentId\" />
     <Folder Include="Comments\GetById\" />
     <Folder Include="Comments\GetByFilter\" />
-    <Folder Include="Orders\GetById\" />
-    <Folder Include="Orders\GetByFilter\" />
-    <Folder Include="Orders\DTOs\" />
     <Folder Include="Users\" />
     <Folder Include="SiteEntities\" />
     <Folder Include="Sellers\" />

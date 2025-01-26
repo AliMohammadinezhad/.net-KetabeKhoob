@@ -22,14 +22,8 @@ public class BaseFilter
     }
 }
 
-public class BaseFilterParam
-{
-    public int PageId { get; set; } = 1;
-    public int Take { get; set; } = 10;
-};
-
 public class BaseFilter<TData, TParam> : BaseFilter
 {
-    public List<TData>? Data { get; set; } = [];
+    public List<TData?> Data { get; set; } = [];
     public required TParam FilterParams { get; set; }
 }

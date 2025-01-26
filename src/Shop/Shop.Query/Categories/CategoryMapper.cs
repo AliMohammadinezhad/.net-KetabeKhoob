@@ -5,16 +5,14 @@ namespace Shop.Query.Categories;
 
 internal static class CategoryMapper
 {
-    public static CategoryDto? Map(this Category? category)
+    public static CategoryDto Map(this Category category)
     {
-        if (category is null) return null;
         return new CategoryDto(category.Id, category.CreationDate, category.Title,
             category.Slug, category.SeoData, category.ParentId, category.Childes.MapChildren());
     }
 
-    public static List<CategoryDto>? Map(this List<Category>? categories)
+    public static List<CategoryDto> Map(this List<Category> categories)
     {
-        if (categories is null) return null;
         var model = new List<CategoryDto>();
         categories.ForEach(category =>
         {
@@ -26,10 +24,9 @@ internal static class CategoryMapper
         return model;
     }
 
-    public static List<ChildCategoryDto> MapChildren(this List<Category>? children)
+    public static List<ChildCategoryDto> MapChildren(this List<Category> children)
     {
         var model = new List<ChildCategoryDto>();
-        if (children is null) return model;
         children.ForEach(x => model.Add(
             new ChildCategoryDto(x.Id, x.CreationDate, x.Title, x.Slug, x.SeoData,
                 (long)x.ParentId!, x.Childes.MapSecondaryChildren())
@@ -37,10 +34,9 @@ internal static class CategoryMapper
         return model;
     }
 
-    private static List<SecondaryChildCategoryDto> MapSecondaryChildren(this List<Category>? children)
+    private static List<SecondaryChildCategoryDto> MapSecondaryChildren(this List<Category> children)
     {
         var model = new List<SecondaryChildCategoryDto>();
-        if (children is null) return model;
         children.ForEach(x => model.Add(
             new SecondaryChildCategoryDto(x.Id, x.CreationDate, x.Title, x.Slug, x.SeoData, (long)x.ParentId!)
             ));

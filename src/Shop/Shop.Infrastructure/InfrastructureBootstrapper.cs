@@ -17,6 +17,7 @@ using Shop.Infrastructure.Persistent.Ef.ProductAgg;
 using Shop.Infrastructure.Persistent.Ef.RoleAgg;
 using Shop.Infrastructure.Persistent.Ef.SellerAgg;
 using Shop.Infrastructure.Persistent.Ef.SiteEntities.Banner;
+using Shop.Infrastructure.Persistent.Ef.SiteEntities.Slider;
 using Shop.Infrastructure.Persistent.Ef.UserAgg;
 
 namespace Shop.Infrastructure;
@@ -32,6 +33,7 @@ public static class InfrastructureBootstrapper
         service.AddTransient<IRoleRepository, RoleRepository>();
         service.AddTransient<ISellerRepository, SellerRepository>();
         service.AddTransient<IBannerRepository, BannerRepository>();
+        service.AddTransient<ISliderRepository, SliderRepository>();
         service.AddTransient<IUserRepository, UserRepository>();
 
 

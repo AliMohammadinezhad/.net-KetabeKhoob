@@ -26,7 +26,7 @@ public class SellerConfiguration : IEntityTypeConfiguration<Seller>
 
         builder.OwnsMany(x => x.Inventories, navigationBuilder =>
         {
-            navigationBuilder.ToTable("Inventories", "sellers");
+            navigationBuilder.ToTable("Inventories", "seller");
             navigationBuilder.HasKey(x => x.Id);
             navigationBuilder.HasIndex(x => x.ProductId);
             navigationBuilder.HasIndex(x => x.SellerId);

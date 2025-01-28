@@ -13,12 +13,11 @@ public class OrderAddress : BaseEntity
     public string Name { get; private set; }
     public string Family { get; private set; }
     public string NationalCode { get; private set; }
-    public Order Order { get; private set; }
 
     private OrderAddress()
     {
-        
     }
+
     public OrderAddress(
         long orderId,
         string province,

@@ -20,7 +20,6 @@ public class UserAddress : BaseEntity
 
     private UserAddress()
     {
-        
     }
 
     public UserAddress(

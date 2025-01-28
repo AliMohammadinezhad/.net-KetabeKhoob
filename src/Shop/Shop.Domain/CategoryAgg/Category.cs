@@ -14,6 +14,10 @@ public class Category : AggregateRoot
     public long? ParentId { get; private set; }
     public List<Category> Childes { get; private set; }
 
+    private Category()
+    {
+    }
+
     public Category(string title, string slug, SeoData seoData, ICategoryDomainService service)
     {
         slug = slug?.ToSlug();

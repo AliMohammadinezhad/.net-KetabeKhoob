@@ -8,7 +8,7 @@ namespace Shop.Query.Orders.DTOs;
 public class OrderDto : BaseDto
 {
     public long UserId { get;  set; }
-    public string UserFullName { get; set; }
+    public string? UserFullName { get; set; }
     public OrderStatus Status { get;  set; }
     public OrderAddress? Address { get;  set; }
     public OrderDiscount? Discount { get;  set; }

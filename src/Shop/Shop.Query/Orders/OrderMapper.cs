@@ -32,15 +32,22 @@ internal static class OrderMapper
         using var connection = context.CreateConnection();
         var sql = $"""
                    SELECT s.ShopName, o.OrderId, o.InventoryId, o.Count, o.Price,
-                   p.Title as [Product.Title], p.Slug as [Product.Slug],
-                   p.ImageName as [Product.ImageName]
+                   p.Title, p.Slug, p.ImageName
                    FROM {context.OrderItems} o
                    INNER JOIN {context.Inventories} i ON o.InventoryId=i.Id
                    INNER JOIN {context.Products} p ON i.ProductId=p.Id
                    INNER JOIN {context.Sellers} s ON i.SellerId=s.Id
                    WHERE o.OrderId=@orderId
                    """;
-        var result = await connection.QueryAsync<OrderItemDto>(sql, new{orderId=orderDto.Id});
+        var result = await connection
+            .QueryAsync<OrderItemDto, ProductOrderItem, OrderItemDto>(sql, (orderItem, product) =>
+                {
+                    orderItem.Product = product; // Assign the nested Product property
+                    return orderItem;
+                },
+                new { orderId = orderDto.Id },
+                splitOn: "Title"
+                );
         return result.ToList();
     }
     public static OrderFilterData? MapFilterData(this Order? order, ShopContext _context)

@@ -18,7 +18,8 @@ internal class GetOrderByIdQueryHandler : IQueryHandler<GetOrderByIdQuery, Order
     }
     public async Task<OrderDto?> Handle(GetOrderByIdQuery request, CancellationToken cancellationToken)
     {
-        var order = await _shopContext.Orders.FirstOrDefaultAsync(x => x.Id == request.OrderId, cancellationToken);
+        var order = await _shopContext.Orders
+            .FirstOrDefaultAsync(x => x.Id == request.OrderId, cancellationToken);
         if (order is null) return null;
         
         var orderDto = order.Map();
@@ -26,7 +27,7 @@ internal class GetOrderByIdQueryHandler : IQueryHandler<GetOrderByIdQuery, Order
         orderDto.UserFullName = await _shopContext.Users
             .Where(x => x.Id == orderDto.UserId)
             .Select(x => $"{x.Name} {x.Family}")
-            .FirstAsync(cancellationToken);
+            .FirstOrDefaultAsync(cancellationToken);
 
         orderDto.Items = await orderDto.GetOrderItem(_dapperContext);
         

@@ -5,7 +5,7 @@ using Shop.Query.Categories.DTOs;
 
 namespace Shop.Query.Categories.GetList;
 
-public class GetCategoryListQueryHandler : IQueryHandler<GetCategoryListQuery, List<CategoryDto>>
+public class GetCategoryListQueryHandler : IQueryHandler<GetCategoryListQuery, List<CategoryDto>?>
 {
     private readonly ShopContext _context;
 
@@ -14,7 +14,7 @@ public class GetCategoryListQueryHandler : IQueryHandler<GetCategoryListQuery, L
         _context = context;
     }
 
-    public async Task<List<CategoryDto>> Handle(GetCategoryListQuery request, CancellationToken cancellationToken)
+    public async Task<List<CategoryDto>?> Handle(GetCategoryListQuery request, CancellationToken cancellationToken)
     {
         var model = await _context.Categories.ToListAsync(cancellationToken);
         return model.Map();

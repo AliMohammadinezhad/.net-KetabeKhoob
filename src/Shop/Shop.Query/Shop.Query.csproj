@@ -11,11 +11,11 @@
     <Folder Include="Comments\GetById\" />
     <Folder Include="Comments\GetByFilter\" />
     <Folder Include="Products\GetBySlug\" />
-    <Folder Include="Products\GetByFilter\" />
+    <Folder Include="Roles\GetById\" />
+    <Folder Include="Roles\DTOs\" />
+    <Folder Include="Sellers\GetById\" />
     <Folder Include="Users\" />
     <Folder Include="SiteEntities\" />
-    <Folder Include="Sellers\" />
-    <Folder Include="Roles\" />
   </ItemGroup>
 
   <ItemGroup>

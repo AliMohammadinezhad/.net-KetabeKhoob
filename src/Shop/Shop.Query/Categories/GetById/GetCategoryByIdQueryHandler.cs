@@ -5,7 +5,7 @@ using Shop.Query.Categories.DTOs;
 
 namespace Shop.Query.Categories.GetById;
 
-internal class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery, CategoryDto>
+internal class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery, CategoryDto?>
 {
     private readonly ShopContext _context;
 
@@ -14,12 +14,12 @@ internal class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery,
         _context = context;
     }
 
-    public async Task<CategoryDto> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
+    public async Task<CategoryDto?> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
         var model = 
             await _context.Categories.FirstOrDefaultAsync(x => x.Id == request.CategoryId, cancellationToken);
 
-        return model.Map();
+        return model?.Map();
 
     }
 }

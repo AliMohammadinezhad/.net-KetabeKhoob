@@ -16,7 +16,9 @@ internal class GetCommentByIdQueryHandler : IQueryHandler<GetCommentByIdQuery, C
 
     public async Task<CommentDto?> Handle(GetCommentByIdQuery request, CancellationToken cancellationToken)
     {
-        var comment = await _context.Comments.FirstOrDefaultAsync(x => x.Id == request.CommentId, cancellationToken);
-        return comment.Map();
+        var comment = await _context.Comments
+            .FirstOrDefaultAsync(x => x.Id == request.CommentId, cancellationToken);
+        
+        return comment?.Map();
     }
 }

@@ -5,14 +5,16 @@ namespace Shop.Query.Categories;
 
 internal static class CategoryMapper
 {
-    public static CategoryDto Map(this Category category)
+    public static CategoryDto? Map(this Category? category)
     {
+        if (category == null) return null;
         return new CategoryDto(category.Id, category.CreationDate, category.Title,
             category.Slug, category.SeoData, category.ParentId, category.Childes.MapChildren());
     }
 
-    public static List<CategoryDto> Map(this List<Category> categories)
+    public static List<CategoryDto>? Map(this List<Category>? categories)
     {
+        if (categories == null) return null;
         var model = new List<CategoryDto>();
         categories.ForEach(category =>
         {

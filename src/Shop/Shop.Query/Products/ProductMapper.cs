@@ -51,7 +51,7 @@ public static class ProductMapper
         };
     }
 
-    public static ProductFilterData MapListData(this Product product)
+    public static ProductFilterData? MapListData(this Product? product)
     {
         return new ProductFilterData()
         {

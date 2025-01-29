@@ -36,7 +36,10 @@ public class GetOrdersByFilterQueryHandler : IQueryHandler<GetOrdersByFilterQuer
 
         var model = new OrderFilterResult()
         {
-            Data = await result.Skip(skip).Take(param.Take).Select(order => order.MapFilterData(_context))
+            Data = await result
+                .Skip(skip)
+                .Take(param.Take)
+                .Select(order => order.MapFilterData(_context))
                 .ToListAsync(cancellationToken),
             FilterParams = param
         };

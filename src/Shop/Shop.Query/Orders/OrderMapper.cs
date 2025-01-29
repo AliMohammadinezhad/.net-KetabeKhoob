@@ -1,6 +1,8 @@
 ﻿using Dapper;
 using Microsoft.EntityFrameworkCore;
 using Shop.Domain.OrderAgg;
+using Shop.Domain.OrderAgg.Enums;
+using Shop.Domain.OrderAgg.ValueObjects;
 using Shop.Infrastructure.Persistent.Dapper;
 using Shop.Infrastructure.Persistent.Ef;
 using Shop.Query.Orders.DTOs;
@@ -14,15 +16,67 @@ internal static class OrderMapper
         return new OrderDto()
         {
             CreationDate = order.CreationDate,
-            Items = new(),
+            Items = [],
             Id = order.Id,
-            Status = order.Status,
-            Address = order.Address,
-            Discount = order.Discount,
+            Status = MapOrderStatus(order.Status),
+            Address = MapOrderAddress(order.Address),
+            Discount = MapOrderDiscount(order.Discount),
             LastUpdate = order.LastUpdate,
-            ShippingMethod = order.ShippingMethod,
+            ShippingMethod = MapOrderShippingMethod(order.ShippingMethod),
             UserFullName = "",
             UserId = order.UserId,
+        };
+    }
+
+    private static ShippingMethodDto? MapOrderShippingMethod(ShippingMethod? shippingMethod)
+    {
+        if (shippingMethod is null) return null;
+        return new ShippingMethodDto()
+        {
+            ShippingCost = shippingMethod.ShippingCost,
+            ShippingType = shippingMethod.ShippingType,
+        };
+    }
+
+    private static OrderDiscountDto? MapOrderDiscount(OrderDiscount? discount)
+    {
+        if (discount is null) return null;
+        return new OrderDiscountDto
+        {
+            DiscountTitle = discount.DiscountTitle,
+            DiscountAmount = discount.DiscountAmount
+        };
+    }
+
+    private static OrderAddressDto? MapOrderAddress(OrderAddress? address)
+    {
+        if (address is null) return null;
+        var result = new OrderAddressDto()
+        {
+            City = address.City,
+            CreationDate = address.CreationDate,
+            Family = address.Family,
+            Id = address.Id,
+            Name = address.Name,
+            NationalCode = address.NationalCode,
+            OrderId = address.OrderId,
+            PhoneNumber = address.PhoneNumber,
+            PostalAddress = address.PostalAddress,
+            PostalCode = address.PostalCode,
+            Province = address.Province
+        };
+        return result;
+    }
+
+    private static OrderStatusDto MapOrderStatus(OrderStatus orderStatus)
+    {
+        return orderStatus switch
+        {
+            OrderStatus.Pending => OrderStatusDto.Pending,
+            OrderStatus.Finally => OrderStatusDto.Finally,
+            OrderStatus.Shipping => OrderStatusDto.Shipping,
+            OrderStatus.Rejected => OrderStatusDto.Rejected,
+            _ => throw new ArgumentOutOfRangeException(nameof(orderStatus), orderStatus, "Unknown Status")
         };
     }
 
@@ -50,21 +104,19 @@ internal static class OrderMapper
                 );
         return result.ToList();
     }
-    public static OrderFilterData? MapFilterData(this Order? order, ShopContext _context)
+    public static OrderFilterData MapFilterData(this Order order, ShopContext _context)
     {
-        if (order == null) return null;
-
         var userFullName = _context.Users
             .Where(x => x.Id == order.UserId)
             .Select(x => $"{x.Name} {x.Family}")
-            .First();
+            .FirstOrDefault();
         
         return new OrderFilterData()
         {
             CreationDate = order.CreationDate,
             Id = order.Id,
-            Status = order.Status,
-            UserFullName = userFullName,
+            Status = MapOrderStatus(order.Status),
+            UserFullName = userFullName ?? "",
             UserId = order.UserId,
             City = order.Address?.City,
             Province = order.Address?.Province,

@@ -13,7 +13,7 @@ public class Product : AggregateRoot
     public string Description { get; private set; }
     public long CategoryId { get; private set; }
     public long SubCategoryId { get; private set; }
-    public long SecondarySubCategoryId { get; private set; }
+    public long? SecondarySubCategoryId { get; private set; }
     public string Slug { get; private set; }
     public SeoData SeoData { get; private set; }
     public List<ProductImage> Images { get; private set; }
@@ -29,7 +29,7 @@ public class Product : AggregateRoot
         string description,
         long categoryId,
         long subCategoryId,
-        long secondarySubCategoryId,
+        long? secondarySubCategoryId,
         string slug,
         SeoData seoData,
         IProductDomainService domainService)
@@ -52,7 +52,7 @@ public class Product : AggregateRoot
         string description,
         long categoryId,
         long subCategoryId,
-        long secondarySubCategoryId,
+        long? secondarySubCategoryId,
         string slug,
         SeoData seoData,
         IProductDomainService domainService)

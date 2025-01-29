@@ -10,11 +10,12 @@
     <Folder Include="Categories\GetByParentId\" />
     <Folder Include="Comments\GetById\" />
     <Folder Include="Comments\GetByFilter\" />
+    <Folder Include="Products\GetBySlug\" />
+    <Folder Include="Products\GetByFilter\" />
     <Folder Include="Users\" />
     <Folder Include="SiteEntities\" />
     <Folder Include="Sellers\" />
     <Folder Include="Roles\" />
-    <Folder Include="Products\" />
   </ItemGroup>
 
   <ItemGroup>

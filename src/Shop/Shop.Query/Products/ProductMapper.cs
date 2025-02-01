@@ -67,8 +67,8 @@ public static class ProductMapper
 
     public static async Task SetCategories(this ProductDto product, ShopContext _context)
     {
-        var category = await _context.Categories
-            .Where(x => x.Id == product.Category.Id)
+        var categories = await _context.Categories
+            .Where(x => x.Id == product.Category.Id || x.Id == product.SubCategory.Id)
             .Select(x => new ProductCategoryDto()
             {
                 Id = x.Id,
@@ -77,20 +77,8 @@ public static class ProductMapper
                 Title = x.Title,
                 Slug = x.Slug,
             })
-            .FirstOrDefaultAsync();
+            .ToListAsync();
 
-
-        var subCategory = await _context.Categories
-            .Where(x => x.Id == product.SubCategory.Id)
-            .Select(x => new ProductCategoryDto()
-            {
-                Id = x.Id,
-                ParentId = x.ParentId,
-                SeoData = x.SeoData,
-                Title = x.Title,
-                Slug = x.Slug,
-            })
-            .FirstOrDefaultAsync();
 
         if (product.SecondarySubCategory?.Id is not null)
         {
@@ -105,13 +93,12 @@ public static class ProductMapper
                     Slug = x.Slug,
                 })
                 .FirstOrDefaultAsync();
-            product.SecondarySubCategory = secondarySubCategory;
+            if(secondarySubCategory is not null)
+                product.SecondarySubCategory = secondarySubCategory;
         }
 
-        if(category is not null)
-            product.Category = category;
+        product.Category = categories.FirstOrDefault(x => x.Id == product.Category.Id);
+        product.SubCategory = categories.FirstOrDefault(x => x.Id == product.SubCategory.Id);
 
-        if(subCategory is not null)
-            product.SubCategory = subCategory;
     }
 }

@@ -11,4 +11,13 @@
     <ProjectReference Include="..\Shop.Query\Shop.Query.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Categories\" />
+    <Folder Include="Comments\" />
+    <Folder Include="SiteEntities\Sliders\" />
+    <Folder Include="Products\" />
+    <Folder Include="Orders\" />
+    <Folder Include="Users\Addresses\" />
+  </ItemGroup>
+
 </Project>

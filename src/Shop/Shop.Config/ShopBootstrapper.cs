@@ -12,6 +12,7 @@ using Shop.Domain.ProductAgg.Services;
 using Shop.Domain.SellerAgg.Services;
 using Shop.Domain.UserAgg.Services;
 using Shop.Infrastructure;
+using Shop.Presentation.Facade;
 using Shop.Query.Categories.GetById;
 
 namespace Shop.Config;
@@ -41,6 +42,9 @@ public static class ShopBootstrapper
 
         // Fluent Validation
         services.AddValidatorsFromAssembly(typeof(Directories).Assembly);
+
+        // Facade
+        services.InitFacade();
 
     }
 }

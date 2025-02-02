@@ -16,7 +16,11 @@ public class GetCategoryListQueryHandler : IQueryHandler<GetCategoryListQuery, L
 
     public async Task<List<CategoryDto>?> Handle(GetCategoryListQuery request, CancellationToken cancellationToken)
     {
-        var model = await _context.Categories.ToListAsync(cancellationToken);
+        var model = await _context.Categories
+            .Where(x => x.ParentId == null)
+            .Include(x => x.Childes)
+            .ThenInclude(x => x.Childes)
+            .ToListAsync(cancellationToken);
         return model.Map();
     }
 }

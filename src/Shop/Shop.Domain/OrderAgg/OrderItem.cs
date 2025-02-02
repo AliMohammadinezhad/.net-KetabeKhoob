@@ -27,7 +27,7 @@ public class OrderItem : BaseEntity
 
     public void IncreaseCount(int count, IOrderDomainService domainService)
     {
-        if(domainService.IsWantedOrderItemCountExistInInventory(InventoryId, count))
+        if(domainService.IsOrderItemQuantityAvailable(count, InventoryId))
             Count += count;
     }
 
@@ -64,7 +64,7 @@ public class OrderItem : BaseEntity
         if (newCount < 1)
             throw new InvalidDomainDataException("تعداد کالا نامعتبر است.");
 
-        if (domainService.IsWantedOrderItemCountExistInInventory(InventoryId, newCount))
+        if (domainService.IsOrderItemQuantityAvailable(newCount, InventoryId))
             throw new InvalidDomainDataException("تعداد کالای خواسته شده در انبار موجود نیست.");
 
     }

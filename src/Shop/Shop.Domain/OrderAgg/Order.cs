@@ -72,9 +72,9 @@ public class Order : AggregateRoot
             oldItem.ChangeCount(item.Count + oldItem.Count, domainService);
             return;
         }
-
-        if (!domainService.IsOrderItemExistInInventory(item.InventoryId))
-            return;
+        
+        if (!domainService.IsOrderItemQuantityAvailable(item.Count, item.InventoryId))
+            throw new InvalidDomainDataException("تعداد کالای خواسته شده در انبار موجود نیست.");
         
         Items.Add(item);
     }

@@ -2,6 +2,5 @@
 
 public interface IOrderDomainService
 {
-    public bool IsWantedOrderItemCountExistInInventory(long inventoryId, int count);
-    public bool IsOrderItemExistInInventory(long inventoryId);
+    bool IsOrderItemQuantityAvailable(int requestedQuantity, long inventoryId);
 }

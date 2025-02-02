@@ -1,16 +1,24 @@
-﻿using Shop.Domain.OrderAgg.Services;
+﻿using Shop.Domain.OrderAgg.Repository;
+using Shop.Domain.OrderAgg.Services;
+using Shop.Domain.SellerAgg.Repository;
 
 namespace Shop.Application.Orders;
 
 public class OrderDomainService : IOrderDomainService
 {
-    public bool IsWantedOrderItemCountExistInInventory(long inventoryId, int count)
+    private readonly ISellerRepository _sellerRepository;
+
+    public OrderDomainService(ISellerRepository sellerRepository)
     {
-        throw new NotImplementedException();
+        _sellerRepository = sellerRepository;
     }
 
-    public bool IsOrderItemExistInInventory(long inventoryId)
+    public bool IsOrderItemQuantityAvailable(int requestedQuantity, long inventoryId)
     {
-        throw new NotImplementedException();
+        var inventory = _sellerRepository.GetInventoryById(inventoryId).Result;
+        if (inventory is null)
+            throw new ApplicationException("انبار موجود نیست.");
+
+        return requestedQuantity > inventory.Count;
     }
 }

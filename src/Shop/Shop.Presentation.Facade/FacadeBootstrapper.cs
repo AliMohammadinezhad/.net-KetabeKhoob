@@ -2,6 +2,7 @@
 using Shop.Presentation.Facade.Categories;
 using Shop.Presentation.Facade.Comments;
 using Shop.Presentation.Facade.Orders;
+using Shop.Presentation.Facade.Products;
 using Shop.Presentation.Facade.Roles;
 using Shop.Presentation.Facade.Sellers;
 using Shop.Presentation.Facade.Sellers.Inventories;
@@ -17,6 +18,7 @@ public static class FacadeBootstrapper
         services.AddScoped<ICategoryFacade, CategoryFacade>();
         services.AddScoped<ICommentFacade, CommentFacade>();
         services.AddScoped<IOrderFacade, OrderFacade>();
+        services.AddScoped<IProductFacade, ProductFacade>();
         services.AddScoped<IRoleFacade, RoleFacade>();
         services.AddScoped<ISellerFacade, SellerFacade>();
         services.AddScoped<ISellerInventoryFacade, SellerInventoryFacade>();

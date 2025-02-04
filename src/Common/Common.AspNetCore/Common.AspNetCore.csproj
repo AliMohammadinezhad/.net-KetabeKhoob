@@ -14,4 +14,8 @@
     <ProjectReference Include="..\Common.Application\Common.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Middlewares\" />
+  </ItemGroup>
+
 </Project>

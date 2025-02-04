@@ -3,6 +3,7 @@ using Common.Application.FileUtil.Interfaces;
 using Common.Application.FileUtil.Services;
 using Shop.Config;
 using System.Text.Json.Serialization;
+using Common.AspNetCore.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +33,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseApiCustomExceptionHandler();
 
 app.UseHttpsRedirection();
 

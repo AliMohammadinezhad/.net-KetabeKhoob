@@ -21,7 +21,7 @@ internal class CategoryFacade : ICategoryFacade
         _mediator = mediator;
     }
 
-    public async Task<OperationResult> AddChild(AddChildCategoryCommand command, CancellationToken cancellationToken = default)
+    public async Task<OperationResult<long>> AddChild(AddChildCategoryCommand command, CancellationToken cancellationToken = default)
     {
         return await _mediator.Send(command, cancellationToken);
     }
@@ -31,7 +31,7 @@ internal class CategoryFacade : ICategoryFacade
         return await _mediator.Send(command, cancellationToken);
     }
 
-    public async Task<OperationResult> Create(CreateCategoryCommand command, CancellationToken cancellationToken = default)
+    public async Task<OperationResult<long>> Create(CreateCategoryCommand command, CancellationToken cancellationToken = default)
     {
         return await _mediator.Send(command, cancellationToken);
     }

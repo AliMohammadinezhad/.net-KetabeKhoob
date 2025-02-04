@@ -9,9 +9,9 @@ namespace Shop.Presentation.Facade.Categories;
 
 public interface ICategoryFacade
 {
-    Task<OperationResult> AddChild(AddChildCategoryCommand command, CancellationToken cancellationToken = default);
+    Task<OperationResult<long>> AddChild(AddChildCategoryCommand command, CancellationToken cancellationToken = default);
     Task<OperationResult> Edit(EditCategoryCommand command, CancellationToken cancellationToken = default);
-    Task<OperationResult> Create(CreateCategoryCommand command, CancellationToken cancellationToken = default);
+    Task<OperationResult<long>> Create(CreateCategoryCommand command, CancellationToken cancellationToken = default);
     Task<OperationResult> Remove(long categoryId, CancellationToken cancellationToken = default);
 
 

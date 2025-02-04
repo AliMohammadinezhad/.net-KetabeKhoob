@@ -17,7 +17,10 @@ internal class GetCategoryByIdQueryHandler : IQueryHandler<GetCategoryByIdQuery,
     public async Task<CategoryDto?> Handle(GetCategoryByIdQuery request, CancellationToken cancellationToken)
     {
         var model = 
-            await _context.Categories.FirstOrDefaultAsync(x => x.Id == request.CategoryId, cancellationToken);
+            await _context.Categories
+                .Include(x => x.Childes)
+                .ThenInclude(x => x.Childes)
+                .FirstOrDefaultAsync(x => x.Id == request.CategoryId, cancellationToken);
 
         return model?.Map();
 

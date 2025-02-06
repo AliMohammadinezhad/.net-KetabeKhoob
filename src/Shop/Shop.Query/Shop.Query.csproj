@@ -15,6 +15,8 @@
     <Folder Include="Roles\DTOs\" />
     <Folder Include="Sellers\GetById\" />
     <Folder Include="SiteEntities\Sliders\GetList\" />
+    <Folder Include="Users\Addresses\GetById\" />
+    <Folder Include="Users\Addresses\GetList\" />
     <Folder Include="Users\GetById\" />
     <Folder Include="Users\GetByFilter\" />
   </ItemGroup>

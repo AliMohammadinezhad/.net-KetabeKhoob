@@ -5,6 +5,7 @@ using Shop.Application.SiteEntities.Sliders.Edit;
 using Shop.Query.Sellers.DTOs;
 using Shop.Query.Sellers.GetById;
 using Shop.Query.SiteEntities.Sliders.DTOs;
+using Shop.Query.SiteEntities.Sliders.GetById;
 using Shop.Query.SiteEntities.Sliders.GetList;
 
 namespace Shop.Presentation.Facade.SiteEntities.Sliders;
@@ -28,9 +29,9 @@ internal class SliderFacade : ISliderFacade
         return await _mediator.Send(command, cancellationToken);
     }
 
-    public async Task<SellerDto?> GetSliderById(long id, CancellationToken cancellationToken = default)
+    public async Task<SliderDto?> GetSliderById(long id, CancellationToken cancellationToken = default)
     {
-        return await _mediator.Send(new GetSellerByIdQuery(id), cancellationToken);
+        return await _mediator.Send(new GetSliderByIdQuery(id), cancellationToken);
     }
 
     public async Task<List<SliderDto?>> GetSliderList(CancellationToken cancellationToken = default)

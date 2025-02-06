@@ -4,6 +4,7 @@ using Common.Application.FileUtil.Services;
 using Shop.Config;
 using System.Text.Json.Serialization;
 using Common.AspNetCore.Middlewares;
+using Shop.Api.Infrastructure.JwtUtil;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,7 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("DevelopmentConnection");
 builder.Services.RegisterShopDependency(connectionString!);
 CommonBootstrapper.Init(builder.Services);
-
+builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddTransient<IFileService, FileService>();
 
 var app = builder.Build();
@@ -37,6 +38,8 @@ if (app.Environment.IsDevelopment())
 app.UseApiCustomExceptionHandler();
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

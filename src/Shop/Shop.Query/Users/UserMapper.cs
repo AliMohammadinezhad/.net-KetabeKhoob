@@ -12,6 +12,8 @@ public static class UserMapper
     {
         return new UserDto
         {
+            Id = user.Id,
+            CreationDate = user.CreationDate,
             AvatarName = user.AvatarName,
             Email = user.Email,
             Family = user.Family,
@@ -19,6 +21,7 @@ public static class UserMapper
             Gender = MapUserGender(user.Gender),
             Name = user.Name,
             PhoneNumber = user.PhoneNumber,
+            IsActive = user.IsActive,
             UserRoles = MapUserRoles(user.UserRoles)
         };
     }

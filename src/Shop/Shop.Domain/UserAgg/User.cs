@@ -13,6 +13,7 @@ public class User : AggregateRoot
     public string Email { get; private set; }
     public string Password { get; private set; }
     public string AvatarName { get; private set; }
+    public bool IsActive { get; private set; }
     public Gender Gender { get; private set; }
     public List<UserRole> UserRoles { get; private set; }
     public List<Wallet> Wallets { get; private set; }
@@ -38,6 +39,7 @@ public class User : AggregateRoot
         Email = email;
         Password = password;
         Gender = gender;
+        IsActive = true;
     }
 
 
@@ -112,13 +114,13 @@ public class User : AggregateRoot
     private void Guard(string phoneNumber, string email, IUserDomainService userDomainService)
     {
         NullOrEmptyDomainDataException.CheckString(phoneNumber, nameof(phoneNumber));
-        NullOrEmptyDomainDataException.CheckString(email, nameof(email));
         
         if (phoneNumber.Length != 11 || string.IsNullOrWhiteSpace(phoneNumber))
             throw new InvalidDomainDataException("شماره موبایل نامعتبر است.");
-
-        if(email.IsValidEmail() == false)
-            throw new InvalidDomainDataException("ایمیل نامعتبر است.");
+        
+        if (!string.IsNullOrWhiteSpace(email))
+            if (email.IsValidEmail() == false)
+                throw new InvalidDomainDataException("ایمیل نامعتبر است.");
 
         if(phoneNumber != PhoneNumber)
             if (userDomainService.IsPhoneNumberExist(phoneNumber))

@@ -71,6 +71,15 @@ public class User : AggregateRoot
         return new User("", "", phoneNumber, "", password, Gender.None, userDomainService);
     }
 
+    public void RemoveToken(long tokenId)
+    {
+        var token = Tokens.FirstOrDefault(x => x.Id == tokenId);
+        if (token is null)
+            throw new InvalidDomainDataException("Invalid Token Id");
+
+        Tokens.Remove(token);
+    }
+
     public void SetAvatar(string imageName)
     {
         if (string.IsNullOrWhiteSpace(imageName))

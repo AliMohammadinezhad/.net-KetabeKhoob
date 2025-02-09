@@ -7,6 +7,7 @@ using Shop.Api.Infrastructure.JwtUtil;
 using Shop.Api.ViewModels.Auth;
 using Shop.Application.Users.AddToken;
 using Shop.Application.Users.Register;
+using Shop.Application.Users.RemoveToken;
 using Shop.Domain.UserAgg;
 using Shop.Presentation.Facade.Users;
 using Shop.Query.Users.DTOs;
@@ -50,7 +51,7 @@ public class AuthController : ApiController
         if (user.IsActive is false)
             return CommandResult(OperationResult<LoginResultDto?>.Error("حساب کاربری شما غیرفعال است."));
 
-        var loginResult = await AddTokenAndGenerateJwt(user);
+        var loginResult = await AddTokensAndGenerateJwt(user);
         return CommandResult(loginResult);
     }
 
@@ -73,27 +74,47 @@ public class AuthController : ApiController
         return CommandResult(result);
     }
 
-    private async Task<OperationResult<LoginResultDto?>> AddTokenAndGenerateJwt(UserDto user)
+    [HttpPost("RefreshToken")]
+    public async Task<ApiResult<LoginResultDto?>> RefreshToken([FromQuery] string refreshToken)
     {
-        var token = JwtTokenBuilder.buildToken(user, _configuration);
+        var result = await _userFacade.GetUserTokenByRefreshToken(refreshToken);
+        if (result is null)
+            return CommandResult(OperationResult<LoginResultDto?>.NotFound());
+
+        if (result.AccessTokenExpireDate > DateTime.Now)
+            return CommandResult(OperationResult<LoginResultDto?>.Error("توکن هنوز منقضی نشده است."));
+
+        if (result.RefreshTokenExpireDate < DateTime.Now)
+            return CommandResult(OperationResult<LoginResultDto?>.Error("زمان refresh token به پایان رسیده است."));
+
+
+        var user = await _userFacade.GetUserById(result.UserId);
+        await _userFacade.RemoveUserToken(new RemoveUserTokenCommand(result.Id, result.UserId));
+        var loginResult = await AddTokensAndGenerateJwt(user);
+        return CommandResult(loginResult);
+    }
+
+    private async Task<OperationResult<LoginResultDto?>> AddTokensAndGenerateJwt(UserDto user)
+    {
+        var accessToken = JwtTokenBuilder.buildToken(user, _configuration);
         var refreshToken = Guid.NewGuid().ToString();
 
-        var hashedToken = Sha256Hasher.Hash(token);
+        var hashedAccessToken = Sha256Hasher.Hash(accessToken);
         var hashedRefreshToken = Sha256Hasher.Hash(refreshToken);
 
         var uaParser = Parser.GetDefault();
         var info = uaParser.Parse(HttpContext.Request.Headers["user-agent"]);
         var device = $"{info.Device.Family}/{info.OS.Family} {info.OS.Major}.{info.OS.Minor} - {info.UA.Family}";
 
-        var tokenResult = await _userFacade.AddUserToken(new AddUserTokenCommand(user.Id, hashedToken, hashedRefreshToken,
+        var accessTokenResult = await _userFacade.AddUserToken(new AddUserTokenCommand(user.Id, hashedAccessToken, hashedRefreshToken,
             DateTime.Now.AddDays(7), DateTime.Now.AddDays(8), device));
 
-        if (tokenResult.Status != OperationResultStatus.Success)
+        if (accessTokenResult.Status != OperationResultStatus.Success)
             return OperationResult<LoginResultDto?>.Error();
 
         var result = new LoginResultDto()
         {
-            AccessToken = token,
+            AccessToken = accessToken,
             RefreshToken = refreshToken,
         };
 

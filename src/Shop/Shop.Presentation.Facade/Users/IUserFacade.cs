@@ -7,6 +7,7 @@ using Shop.Application.Users.DeleteAddress;
 using Shop.Application.Users.Edit;
 using Shop.Application.Users.EditAddress;
 using Shop.Application.Users.Register;
+using Shop.Application.Users.RemoveToken;
 using Shop.Query.Users.DTOs;
 
 namespace Shop.Presentation.Facade.Users;
@@ -18,10 +19,12 @@ public interface IUserFacade
     Task<OperationResult> EditUser(EditUserCommand command, CancellationToken cancellationToken = default);
     Task<OperationResult> RegisterUser(RegisterUserCommand command, CancellationToken cancellationToken = default);
     Task<OperationResult> AddUserToken(AddUserTokenCommand command, CancellationToken cancellationToken = default);
+    Task<OperationResult> RemoveUserToken(RemoveUserTokenCommand command, CancellationToken cancellationToken = default);
 
 
     Task<UserFilterResult> GetUserByFilter(UserFilterParams  filterParams, CancellationToken cancellationToken = default);
     Task<UserDto?> GetUserById(long id, CancellationToken cancellationToken = default);
+    Task<UserTokenDto?> GetUserTokenByRefreshToken(string refreshToken, CancellationToken cancellationToken = default);
     Task<UserDto?> GetUserByPhoneNumber(string phoneNumber, CancellationToken cancellationToken = default);
 
 }

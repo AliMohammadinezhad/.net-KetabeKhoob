@@ -4,13 +4,32 @@ using Common.Application.FileUtil.Services;
 using Shop.Config;
 using System.Text.Json.Serialization;
 using Common.AspNetCore.Middlewares;
+using Microsoft.AspNetCore.Mvc;
 using Shop.Api.Infrastructure.JwtUtil;
+using Common.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers().AddJsonOptions(options =>
+builder.Services.AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        options.InvalidModelStateResponseFactory = (context =>
+        {
+            var result = new ApiResult()
+            {
+                IsSuccess = false,
+                MetaData = new()
+                {
+                    AppStatusCode = AppStatusCode.BadRequest,
+                    Message = ModelStateUtil.GetModelStateErrors(context.ModelState)
+                }
+            };
+            return new BadRequestObjectResult(result);
+        });
+    })
+    .AddJsonOptions(options =>
 {
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;

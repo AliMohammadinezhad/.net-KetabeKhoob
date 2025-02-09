@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop.Infrastructure.Persistent.Ef;
 
@@ -11,9 +12,11 @@ using Shop.Infrastructure.Persistent.Ef;
 namespace Shop.Infrastructure.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20250208092233_AddIsActiveToUser")]
+    partial class AddIsActiveToUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -788,48 +791,6 @@ namespace Shop.Infrastructure.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsMany("Shop.Domain.UserAgg.UserToken", "Tokens", b1 =>
-                        {
-                            b1.Property<long>("Id")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("bigint");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<long>("Id"));
-
-                            b1.Property<string>("Device")
-                                .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)");
-
-                            b1.Property<string>("HashJwtToken")
-                                .IsRequired()
-                                .HasMaxLength(2048)
-                                .HasColumnType("nvarchar(2048)");
-
-                            b1.Property<string>("HashRefreshToken")
-                                .IsRequired()
-                                .HasMaxLength(2048)
-                                .HasColumnType("nvarchar(2048)");
-
-                            b1.Property<DateTime>("RefreshTokenExpireDate")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<DateTime>("TokenExpireDate")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<long>("UserId")
-                                .HasColumnType("bigint");
-
-                            b1.HasKey("Id");
-
-                            b1.HasIndex("UserId");
-
-                            b1.ToTable("Tokens", "user");
-
-                            b1.WithOwner()
-                                .HasForeignKey("UserId");
-                        });
-
                     b.OwnsMany("Shop.Domain.UserAgg.Wallet", "Wallets", b1 =>
                         {
                             b1.Property<long>("Id")
@@ -871,8 +832,6 @@ namespace Shop.Infrastructure.Migrations
                         });
 
                     b.Navigation("Addresses");
-
-                    b.Navigation("Tokens");
 
                     b.Navigation("UserRoles");
 

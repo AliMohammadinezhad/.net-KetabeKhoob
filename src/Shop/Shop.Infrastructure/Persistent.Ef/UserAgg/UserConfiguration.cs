@@ -100,5 +100,25 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
                 .IsRequired()
                 .HasConversion<string>();
         });
+
+
+        // UserToken
+        builder.OwnsMany(x => x.Tokens, navigationBuilder =>
+        {
+            navigationBuilder.ToTable("Tokens", "user");
+            navigationBuilder.HasKey(x => x.Id);
+
+            navigationBuilder.Property(x => x.HashJwtToken)
+                .IsRequired()
+                .HasMaxLength(2048);
+
+            navigationBuilder.Property(x => x.HashRefreshToken)
+                .IsRequired()
+                .HasMaxLength(2048);
+
+            navigationBuilder.Property(x => x.Device)
+                .IsRequired()
+                .HasMaxLength(100);
+        });
     }
 }

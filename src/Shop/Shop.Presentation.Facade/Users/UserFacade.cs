@@ -1,5 +1,6 @@
 ﻿using Common.Application;
 using MediatR;
+using Shop.Application.Users.AddToken;
 using Shop.Application.Users.ChargeWallet;
 using Shop.Application.Users.Create;
 using Shop.Application.Users.Edit;
@@ -37,6 +38,11 @@ internal class UserFacade : IUserFacade
 
    
     public async Task<OperationResult> RegisterUser(RegisterUserCommand command, CancellationToken cancellationToken = default)
+    {
+        return await _mediator.Send(command, cancellationToken);
+    }
+
+    public async Task<OperationResult> AddUserToken(AddUserTokenCommand command, CancellationToken cancellationToken = default)
     {
         return await _mediator.Send(command, cancellationToken);
     }

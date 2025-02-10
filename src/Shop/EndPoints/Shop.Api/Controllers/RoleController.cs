@@ -1,13 +1,16 @@
 ﻿using Common.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Api.Infrastructure.Security;
 using Shop.Application.Roles.Create;
 using Shop.Application.Roles.Edit;
 using Shop.Domain.RoleAgg;
+using Shop.Domain.RoleAgg.Enums;
 using Shop.Presentation.Facade.Roles;
 using Shop.Query.Roles.DTOs;
 
 namespace Shop.Api.Controllers;
 
+[PermissionChecker(Permission.RoleManagement)]
 public class RoleController : ApiController
 {
     private readonly IRoleFacade _roleFacade;

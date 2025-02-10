@@ -6,9 +6,12 @@ using Shop.Application.Users.ChargeWallet;
 using Shop.Application.Users.Register;
 using Shop.Presentation.Facade.Users;
 using Shop.Query.Users.DTOs;
+using Shop.Api.Infrastructure.Security;
+using Shop.Domain.RoleAgg.Enums;
 
 namespace Shop.Api.Controllers;
 
+[PermissionChecker(Permission.UserManagement)]
 public class UserController : ApiController
 {
     private readonly IUserFacade _userFacade;
@@ -41,7 +44,7 @@ public class UserController : ApiController
     }
 
 
-    [HttpPost("register")]
+    [HttpPost("Register")]
     public async Task<ApiResult> RegisterUser(RegisterUserCommand command)
     {
         var result = await _userFacade.RegisterUser(command);

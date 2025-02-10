@@ -1,18 +1,20 @@
 ﻿using System.Net;
 using Common.Application;
 using Common.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shop.Api.Infrastructure.Security;
 using Shop.Application.Categories.AddChild;
 using Shop.Application.Categories.Create;
 using Shop.Application.Categories.Edit;
 using Shop.Application.Categories.Remove;
+using Shop.Domain.RoleAgg.Enums;
 using Shop.Presentation.Facade.Categories;
 using Shop.Query.Categories.DTOs;
 
 namespace Shop.Api.Controllers;
 
-[Route("api/[controller]")]
-[ApiController]
+[PermissionChecker(Permission.CategoryManagement)]
 public class CategoryController : ApiController
 {
     private readonly ICategoryFacade _categoryFacade;
@@ -22,6 +24,7 @@ public class CategoryController : ApiController
         _categoryFacade = categoryFacade;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ApiResult<List<CategoryDto>?>> GetCategories(CancellationToken cancellationToken)
     {
@@ -29,6 +32,7 @@ public class CategoryController : ApiController
         return QueryResult(result);
     }
 
+    [AllowAnonymous]
     [HttpGet("{id:long}")]
     public async Task<ApiResult<CategoryDto?>> GetCategoryById([FromRoute]long id, CancellationToken cancellationToken)
     {
@@ -36,6 +40,7 @@ public class CategoryController : ApiController
         return QueryResult(result);
     }
 
+    [AllowAnonymous]
     [HttpGet("getChild/{parentId:long}")]
     public async Task<ApiResult<List<ChildCategoryDto>?>> GetCategoriesByParentId([FromRoute] long parentId, CancellationToken cancellationToken)
     {

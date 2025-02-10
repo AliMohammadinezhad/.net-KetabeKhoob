@@ -25,6 +25,7 @@ public interface IUserFacade
     Task<UserFilterResult> GetUserByFilter(UserFilterParams  filterParams, CancellationToken cancellationToken = default);
     Task<UserDto?> GetUserById(long id, CancellationToken cancellationToken = default);
     Task<UserTokenDto?> GetUserTokenByRefreshToken(string refreshToken, CancellationToken cancellationToken = default);
+    Task<UserTokenDto?> GetUserTokenByAccessToken(string accessToken, CancellationToken cancellationToken = default);
     Task<UserDto?> GetUserByPhoneNumber(string phoneNumber, CancellationToken cancellationToken = default);
 
 }

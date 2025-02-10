@@ -11,6 +11,9 @@ using Shop.Application.Users.RemoveToken;
 using Shop.Domain.UserAgg;
 using Shop.Presentation.Facade.Users;
 using Shop.Query.Users.DTOs;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using UAParser;
 
 namespace Shop.Api.Controllers;
@@ -92,6 +95,19 @@ public class AuthController : ApiController
         await _userFacade.RemoveUserToken(new RemoveUserTokenCommand(result.Id, result.UserId));
         var loginResult = await AddTokensAndGenerateJwt(user);
         return CommandResult(loginResult);
+    }
+
+    [Authorize]
+    [HttpPost("Logout")]
+    public async Task<ApiResult> Logout()
+    {
+        var token = await HttpContext.GetTokenAsync("access_token");
+        var result = await _userFacade.GetUserTokenByAccessToken(token);
+        if (result is null)
+            return CommandResult(OperationResult.NotFound());
+
+        await _userFacade.RemoveUserToken(new RemoveUserTokenCommand(result.Id, result.UserId));
+        return CommandResult(OperationResult.Success());
     }
 
     private async Task<OperationResult<LoginResultDto?>> AddTokensAndGenerateJwt(UserDto user)

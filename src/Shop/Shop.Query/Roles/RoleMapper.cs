@@ -16,25 +16,8 @@ public static class RoleMapper
         {
             Id = role.Id,
             CreationDate = role.CreationDate,
-            Permissions = role.Permissions.MapRolePermissions(),
+            Permissions = role.Permissions.Select(x => x.Permission).ToList(),
             Title = role.Title
-        };
-    }
-
-
-    private static List<PermissionDto> MapRolePermissions(this List<RolePermission> rolePermission)
-    {
-        return rolePermission.Select(x => MapPermission(x.Permission)).ToList();
-    }
-
-    private static PermissionDto MapPermission(Permission permission)
-    {
-        return permission switch
-        {
-            Permission.AdminPanel => PermissionDto.AdminPanel,
-            Permission.EditProfile => PermissionDto.EditProfile,
-            Permission.ChangePassword => PermissionDto.ChangePassword,
-            _ => throw new InvalidEnumArgumentException()
         };
     }
 }

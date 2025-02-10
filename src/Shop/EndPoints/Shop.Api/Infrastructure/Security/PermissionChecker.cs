@@ -13,9 +13,9 @@ public class PermissionChecker : AuthorizeAttribute, IAsyncAuthorizationFilter
 {
     private IUserFacade _userFacade;
     private IRoleFacade _roleFacade;
-    private readonly PermissionDto _permission;
+    private readonly Permission _permission;
 
-    public PermissionChecker(PermissionDto permission)
+    public PermissionChecker(Permission permission)
     {
         _permission = permission;
     }

@@ -2,11 +2,9 @@
 using MediatR;
 using Shop.Application.Roles.Create;
 using Shop.Application.Roles.Edit;
-using Shop.Query.Products.GetById;
 using Shop.Query.Roles.DTOs;
 using Shop.Query.Roles.GetById;
 using Shop.Query.Roles.GetList;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Shop.Presentation.Facade.Roles;
 
@@ -39,4 +37,5 @@ internal class RoleFacade : IRoleFacade
         return await _mediator.Send(new GetRoleListQuery(), cancellationToken);
 
     }
+
 }

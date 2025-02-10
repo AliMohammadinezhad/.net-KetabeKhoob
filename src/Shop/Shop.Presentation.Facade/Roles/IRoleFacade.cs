@@ -15,5 +15,4 @@ public interface IRoleFacade
     
     Task<RoleDto?> GetRoleById(long id, CancellationToken cancellationToken = default);
     Task<List<RoleDto>> GetRoleList(CancellationToken cancellationToken = default);
-
 }

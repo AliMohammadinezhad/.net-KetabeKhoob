@@ -16,15 +16,15 @@ public static class RoleMapper
         {
             Id = role.Id,
             CreationDate = role.CreationDate,
-            Permissions = role.Permissions.Select(x => new RolePermissionDto()
-            {
-                Id = x.Id,
-                CreationDate = x.CreationDate,
-                Permission = MapPermission(x.Permission),
-                RoleId = x.RoleId,
-            }).ToList(),
+            Permissions = role.Permissions.MapRolePermissions(),
             Title = role.Title
         };
+    }
+
+
+    private static List<PermissionDto> MapRolePermissions(this List<RolePermission> rolePermission)
+    {
+        return rolePermission.Select(x => MapPermission(x.Permission)).ToList();
     }
 
     private static PermissionDto MapPermission(Permission permission)

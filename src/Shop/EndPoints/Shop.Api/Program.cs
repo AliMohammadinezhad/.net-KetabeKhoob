@@ -7,6 +7,7 @@ using Common.AspNetCore.Middlewares;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Api.Infrastructure.JwtUtil;
 using Common.AspNetCore;
+using Shop.Api.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,7 +42,10 @@ builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("DevelopmentConnection");
 builder.Services.RegisterShopDependency(connectionString!);
+builder.Services.RegisterApiDependency();
+
 CommonBootstrapper.Init(builder.Services);
+
 builder.Services.AddJwtAuthentication(builder.Configuration);
 builder.Services.AddTransient<IFileService, FileService>();
 

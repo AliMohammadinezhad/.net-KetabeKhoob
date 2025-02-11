@@ -8,6 +8,7 @@ using Shop.Query.Products.DTOs;
 using Shop.Query.Products.GetByFilter;
 using Shop.Query.Products.GetById;
 using Shop.Query.Products.GetBySlug;
+using Shop.Query.Products.GetForShop;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Shop.Presentation.Facade.Products;
@@ -51,6 +52,11 @@ internal class ProductFacade : IProductFacade
     {
         return await _mediator.Send(new GetProductByFilterQuery(filterParams), cancellationToken);
 
+    }
+
+    public async Task<ProductShopResult?> GetProductsForShop(ProductShopFilterParam filterParams, CancellationToken cancellationToken = default)
+    {
+        return await _mediator.Send(new GetProductForShopQuery(filterParams), cancellationToken);
     }
 
     public async Task<ProductDto?> GetProductBySlug(string slug, CancellationToken cancellationToken = default)

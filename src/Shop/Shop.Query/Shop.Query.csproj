@@ -11,6 +11,7 @@
     <Folder Include="Comments\GetById\" />
     <Folder Include="Comments\GetByFilter\" />
     <Folder Include="Products\GetBySlug\" />
+    <Folder Include="Products\GetForShop\" />
     <Folder Include="Roles\GetById\" />
     <Folder Include="Roles\DTOs\" />
     <Folder Include="Sellers\GetById\" />

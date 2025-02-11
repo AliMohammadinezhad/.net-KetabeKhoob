@@ -17,5 +17,7 @@ public interface IProductFacade
     
     Task<ProductDto?> GetProductById(long id, CancellationToken cancellationToken = default);
     Task<ProductFilterResult> GetProductByFilter(ProductFilterParams filterParams, CancellationToken cancellationToken = default);
+    Task<ProductShopResult?> GetProductsForShop(ProductShopFilterParam filterParams,
+        CancellationToken cancellationToken = default);
     Task<ProductDto?> GetProductBySlug(string slug, CancellationToken cancellationToken = default);
 }

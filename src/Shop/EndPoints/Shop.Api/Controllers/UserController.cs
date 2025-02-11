@@ -1,4 +1,5 @@
 ﻿using Common.AspNetCore;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Application.Users.Create;
 using Shop.Application.Users.Edit;
@@ -11,7 +12,7 @@ using Shop.Domain.RoleAgg.Enums;
 
 namespace Shop.Api.Controllers;
 
-[PermissionChecker(Permission.UserManagement)]
+[Authorize]
 public class UserController : ApiController
 {
     private readonly IUserFacade _userFacade;
@@ -22,14 +23,23 @@ public class UserController : ApiController
     }
 
     [HttpGet]
+    [PermissionChecker(Permission.UserManagement)]
     public async Task<ApiResult<UserFilterResult?>> GetUserByFilter([FromQuery] UserFilterParams filterParams)
     {
         var result = await _userFacade.GetUserByFilter(filterParams);
         return QueryResult(result);
     }
 
+    [HttpGet("Current")]
+    public async Task<ApiResult<UserDto?>> GetCurrentUser()
+    {
+        var result = await _userFacade.GetUserById(User.GetUserId());
+        return QueryResult(result);
+    }
+
 
     [HttpGet("{userId}")]
+    [PermissionChecker(Permission.UserManagement)]
     public async Task<ApiResult<UserDto?>> GetUserById(long userId)
     {
         var result = await _userFacade.GetUserById(userId);
@@ -37,6 +47,7 @@ public class UserController : ApiController
     }
 
     [HttpGet("{phoneNumber}")]
+    [PermissionChecker(Permission.UserManagement)]
     public async Task<ApiResult<UserDto?>> GetUserByPhoneNumber(string phoneNumber)
     {
         var result = await _userFacade.GetUserByPhoneNumber(phoneNumber);
@@ -45,6 +56,7 @@ public class UserController : ApiController
 
 
     [HttpPost("Register")]
+    [PermissionChecker(Permission.UserManagement)]
     public async Task<ApiResult> RegisterUser(RegisterUserCommand command)
     {
         var result = await _userFacade.RegisterUser(command);
@@ -52,6 +64,7 @@ public class UserController : ApiController
     }
 
     [HttpPost]
+    [PermissionChecker(Permission.UserManagement)]
     public async Task<ApiResult> CreateUser([FromBody] CreateUserCommand command)
     {
         var result = await _userFacade.CreateUser(command);
@@ -59,6 +72,7 @@ public class UserController : ApiController
     }
 
     [HttpPut("ChargeWallet")]
+    [PermissionChecker(Permission.UserManagement)]
     public async Task<ApiResult> ChargeUserWallet([FromBody] ChargeUserWalletCommand command)
     {
         var result = await _userFacade.ChargeUserWallet(command);
@@ -66,6 +80,7 @@ public class UserController : ApiController
     }
 
     [HttpPut]
+    [PermissionChecker(Permission.UserManagement)]
     public async Task<ApiResult> EditUser([FromBody] EditUserCommand command)
     {
         var result = await _userFacade.EditUser(command);

@@ -20,6 +20,18 @@ public class BaseFilter
         EndPage = (currentPage + 5 > pageCount) ? pageCount : currentPage + 5;
         StartPage = (currentPage - 4 <= pageCount) ? 1 : currentPage - 4;
     }
+
+    public void GeneratePaging(int data, int take, int currentPage)
+    {
+        var entityCount = data;
+        var pageCount = (int)Math.Ceiling(entityCount / (double)take);
+        PageCount = pageCount;
+        EntityCount = entityCount;
+        CurrentPage = currentPage;
+        Take = take;
+        EndPage = (currentPage + 5 > pageCount) ? pageCount : currentPage + 5;
+        StartPage = (currentPage - 4 <= pageCount) ? 1 : currentPage - 4;
+    }
 }
 
 public class BaseFilter<TData, TParam> : BaseFilter

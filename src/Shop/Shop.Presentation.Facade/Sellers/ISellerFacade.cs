@@ -12,5 +12,6 @@ public interface ISellerFacade
     Task<OperationResult> EditSeller(EditSellerCommand command, CancellationToken cancellationToken = default);
 
     Task<SellerDto?> GetSellerById(long id, CancellationToken cancellationToken = default);
+    Task<SellerDto?> GetSellerByUserId(long userId, CancellationToken cancellationToken = default);
     Task<SellerFilterResult> GetSellerByFilter(SellerFilterParams filterParams , CancellationToken cancellationToken = default);
 }

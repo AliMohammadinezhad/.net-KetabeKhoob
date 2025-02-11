@@ -14,6 +14,8 @@
     <Folder Include="Roles\GetById\" />
     <Folder Include="Roles\DTOs\" />
     <Folder Include="Sellers\GetById\" />
+    <Folder Include="Sellers\GetByUserId\" />
+    <Folder Include="Sellers\Inventories\GetList\" />
     <Folder Include="SiteEntities\Sliders\GetList\" />
     <Folder Include="Users\Addresses\GetById\" />
     <Folder Include="Users\Addresses\GetList\" />

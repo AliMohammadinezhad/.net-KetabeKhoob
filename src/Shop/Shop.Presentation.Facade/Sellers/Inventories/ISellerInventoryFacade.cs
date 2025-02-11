@@ -2,6 +2,7 @@
 using Shop.Application.Sellers.AddInventory;
 using Shop.Application.Sellers.ChangeStatus;
 using Shop.Application.Sellers.EditInventory;
+using Shop.Query.Sellers.DTOs;
 
 namespace Shop.Presentation.Facade.Sellers.Inventories;
 
@@ -15,4 +16,8 @@ public interface ISellerInventoryFacade
 
     Task<OperationResult> ChangeSellerInventoryStatus(ChangeSellerInventoryStatusCommand command,
         CancellationToken cancellationToken = default);
+
+
+    Task<InventoryDto?> GetSellerInventoryById(long inventoryId);
+    Task<List<InventoryDto?>> GetSellerInventoryList(long sellerId);
 }

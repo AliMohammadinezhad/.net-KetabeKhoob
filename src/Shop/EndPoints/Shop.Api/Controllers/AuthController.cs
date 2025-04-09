@@ -117,8 +117,14 @@ public class AuthController : ApiController
         var hashedRefreshToken = Sha256Hasher.Hash(refreshToken);
 
         var uaParser = Parser.GetDefault();
-        var info = uaParser.Parse(HttpContext.Request.Headers["user-agent"]);
-        var device = $"{info.Device.Family}/{info.OS.Family} {info.OS.Major}.{info.OS.Minor} - {info.UA.Family}";
+        var header = HttpContext.Request.Headers["user-agent"].ToString();
+        var device = "windows";
+
+        if (header is not null)
+        {
+            var info = uaParser.Parse(header);
+            device = $"{info.Device.Family}/{info.OS.Family} {info.OS.Major}.{info.OS.Minor} - {info.UA.Family}";
+        }
 
         var accessTokenResult = await _userFacade.AddUserToken(new AddUserTokenCommand(user.Id, hashedAccessToken, hashedRefreshToken,
             DateTime.Now.AddDays(7), DateTime.Now.AddDays(8), device));

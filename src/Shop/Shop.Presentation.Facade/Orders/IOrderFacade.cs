@@ -19,4 +19,5 @@ public interface IOrderFacade
     Task<OrderDto?> GetOrderById(long id, CancellationToken cancellationToken = default);
     Task<OrderFilterResult> GetOrderByFilter(OrderFilterParams filterParams, CancellationToken cancellationToken = default);
 
+    Task<OrderDto?> GetCurrentOrder(long userId);
 }

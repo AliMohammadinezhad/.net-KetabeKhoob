@@ -34,7 +34,7 @@ builder.Services.AddControllers()
     })
     .AddJsonOptions(options =>
 {
-    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    // options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); ==> change from string enum to numbers
     options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 
 });

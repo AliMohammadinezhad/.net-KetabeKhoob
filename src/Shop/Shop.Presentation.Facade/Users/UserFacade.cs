@@ -2,6 +2,7 @@
 using Common.Application.SecurityUtil;
 using MediatR;
 using Shop.Application.Users.AddToken;
+using Shop.Application.Users.ChangePassword;
 using Shop.Application.Users.ChargeWallet;
 using Shop.Application.Users.Create;
 using Shop.Application.Users.Edit;
@@ -53,6 +54,11 @@ internal class UserFacade : IUserFacade
     }
 
     public async Task<OperationResult> RemoveUserToken(RemoveUserTokenCommand command, CancellationToken cancellationToken = default)
+    {
+        return await _mediator.Send(command, cancellationToken);
+    }
+
+    public async Task<OperationResult> ChangePassword(ChangeUserPasswordCommand command, CancellationToken cancellationToken = default)
     {
         return await _mediator.Send(command, cancellationToken);
     }

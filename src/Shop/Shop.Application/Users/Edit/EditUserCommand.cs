@@ -14,4 +14,7 @@ public record EditUserCommand(
     string Password,
     Gender Gender,
     IFormFile? Avatar
-    ) : IBaseCommand;
+) : IBaseCommand
+{
+    public long UserId { get; set; }
+}

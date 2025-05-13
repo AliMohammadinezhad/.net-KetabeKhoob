@@ -71,6 +71,12 @@ public class User : AggregateRoot
         return new User("", "", phoneNumber, "", password, Gender.None, userDomainService);
     }
 
+    public void ChangePassword(string newPassword)
+    {
+        NullOrEmptyDomainDataException.CheckString(newPassword, nameof(newPassword));
+        Password = newPassword;
+    }
+
     public void RemoveToken(long tokenId)
     {
         var token = Tokens.FirstOrDefault(x => x.Id == tokenId);

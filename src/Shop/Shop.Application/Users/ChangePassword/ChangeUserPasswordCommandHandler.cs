@@ -16,6 +16,9 @@ public class ChangeUserPasswordCommandHandler : IBaseCommandHandler<ChangeUserPa
     public async Task<OperationResult> Handle(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetTracking(request.UserId);
+        if (user is null)
+            return OperationResult.NotFound("کاربر یافت نشد.");
+
         var currentPasswordHash = Sha256Hasher.Hash(request.CurrentPassword);
         if (user.Password != currentPasswordHash)
         {

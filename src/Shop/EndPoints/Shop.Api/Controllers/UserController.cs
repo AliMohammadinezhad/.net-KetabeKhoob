@@ -46,6 +46,7 @@ public class UserController : ApiController
     public async Task<ApiResult> EditUser([FromBody] ChangePasswordViewModel  command)
     {
         var changePasswordModel = _mapper.Map<ChangeUserPasswordCommand>(command);
+        changePasswordModel.UserId = User.GetUserId();
         var result = await _userFacade.ChangePassword(changePasswordModel);
         return CommandResult(result);
     }

@@ -96,7 +96,7 @@ public class AuthController : ApiController
     }
 
     [Authorize]
-    [HttpPost("Logout")]
+    [HttpDelete("Logout")]
     public async Task<ApiResult> Logout()
     {
         var token = await HttpContext.GetTokenAsync("access_token");

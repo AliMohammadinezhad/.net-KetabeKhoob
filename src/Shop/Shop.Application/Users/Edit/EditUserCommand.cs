@@ -11,7 +11,6 @@ public record EditUserCommand(
     string Family,
     string PhoneNumber,
     string Email,
-    string Password,
     Gender Gender,
     IFormFile? Avatar
 ) : IBaseCommand

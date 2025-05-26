@@ -43,7 +43,7 @@ public class UserController : ApiController
     }
 
     [HttpPut("ChangePassword")]
-    public async Task<ApiResult> EditUser([FromBody] ChangePasswordViewModel  command)
+    public async Task<ApiResult> EditUser([FromBody] ChangePasswordViewModel command)
     {
         var changePasswordModel = _mapper.Map<ChangeUserPasswordCommand>(command);
         changePasswordModel.UserId = User.GetUserId();
@@ -92,11 +92,18 @@ public class UserController : ApiController
         return CommandResult(result);
     }
 
+    [HttpPut("Current")]
+    public async Task<ApiResult> EditUser([FromForm] EditUserViewModel command)
+    {
+        var commandModel = new EditUserCommand(User.GetUserId(), command.Name, command.Family, command.PhoneNumber, command.Email, command.Gender, command.Avatar);
+        var result = await _userFacade.EditUser(commandModel);
+        return CommandResult(result);
+    }
+
     [HttpPut]
     [PermissionChecker(Permission.UserManagement)]
-    public async Task<ApiResult> EditUser([FromBody] EditUserCommand command)
+    public async Task<ApiResult> Edit([FromForm] EditUserCommand command)
     {
-        command.UserId = User.GetUserId();
         var result = await _userFacade.EditUser(command);
         return CommandResult(result);
     }

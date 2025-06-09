@@ -118,6 +118,20 @@ public class User : AggregateRoot
             address.PhoneNumber, address.Name, address.Family, address.NationalCode);
     }
 
+    public void SetActiveAddress(long addressId)
+    {
+        var currentAddress = Addresses.FirstOrDefault(x => x.Id == addressId);
+        if (currentAddress is null)
+            throw new NullOrEmptyDomainDataException("Address Not Found");
+
+        foreach (var address in Addresses)
+        {
+            address.SetDeActive();
+        }
+
+        currentAddress.SetActive();
+    }
+
     public void ChargeWallet(Wallet wallet)
     {
         wallet.UserId = Id;

@@ -71,6 +71,11 @@ public class UserAddress : BaseEntity
         ActiveAddress = true;
     }
 
+    public void SetDeActive()
+    {
+        ActiveAddress = false;
+    }
+
     private void Guard(
         string shire,
         string city,

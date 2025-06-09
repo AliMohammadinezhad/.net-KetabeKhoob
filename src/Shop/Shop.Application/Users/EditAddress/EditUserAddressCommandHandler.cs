@@ -24,7 +24,7 @@ public class EditUserAddressCommandHandler : IBaseCommandHandler<EditUserAddress
         var address = new UserAddress(request.Shire, request.City, request.PostalCode, request.PostalAddress,
             request.PhoneNumber, request.Name, request.Family, request.NationalCode);
 
-        user.EditAddress(address, request.UserId);
+        user.EditAddress(address, request.Id);
         await _userRepository.Save();
         return OperationResult.Success();
     }

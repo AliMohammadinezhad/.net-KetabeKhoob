@@ -5,6 +5,7 @@ namespace Shop.Application.Users.EditAddress;
 
 
 public record EditUserAddressCommand(
+    long Id,
     long UserId,
     string Shire,
     string City,

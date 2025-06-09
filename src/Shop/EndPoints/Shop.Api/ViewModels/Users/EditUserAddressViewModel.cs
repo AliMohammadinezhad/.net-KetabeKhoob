@@ -3,7 +3,7 @@
 public class EditUserAddressViewModel
 {
     public EditUserAddressViewModel(string shire, string city, string postalCode, string postalAddress,
-        string phoneNumber, string name, string family, string nationalCode, bool activeAddress)
+        string phoneNumber, string name, string family, string nationalCode, bool activeAddress, long id)
     {
         Shire = shire;
         City = city;
@@ -14,7 +14,10 @@ public class EditUserAddressViewModel
         Family = family;
         NationalCode = nationalCode;
         ActiveAddress = activeAddress;
+        Id = id;
     }
+
+    public long Id { get; private set; }
     public string Shire { get; set; }
     public string City { get; set; }
     public string PostalCode { get; set; }

@@ -71,7 +71,7 @@ public class UserAddressController : ApiController
         return CommandResult(result);
     }
 
-    [HttpPut("SetActiveAddress")]
+    [HttpPut("SetActiveAddress/{addressId:long}")]
     public async Task<ApiResult> SetActiveAddress(long addressId)
     {
         var command = new SetActiveUserAddressCommand(User.GetUserId(), addressId);

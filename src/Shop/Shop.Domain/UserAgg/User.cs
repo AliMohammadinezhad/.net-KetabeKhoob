@@ -63,7 +63,6 @@ public class User : AggregateRoot
         PhoneNumber = phoneNumber;
         Email = email;
         Gender = gender;
-        AvatarName = "avatar.png";
     }
 
     public static User RegisterUser(string phoneNumber, string password, IUserDomainService userDomainService)

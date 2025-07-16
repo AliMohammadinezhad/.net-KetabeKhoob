@@ -21,8 +21,8 @@ public class DeleteSliderCommandHandler : IBaseCommandHandler<DeleteSliderComman
         if (slider == null) return OperationResult.NotFound();
 
         _sliderRepository.DeleteSlider(slider);
-        await _sliderRepository.Save();
         _fileService.DeleteFile(Directories.SliderImages, slider.ImageName);
+        await _sliderRepository.Save();
         return OperationResult.Success();
 
     }

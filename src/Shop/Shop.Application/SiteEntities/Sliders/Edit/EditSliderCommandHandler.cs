@@ -31,8 +31,8 @@ public class EditSliderCommandHandler : IBaseCommandHandler<EditSliderCommand>
             );
 
         slider.Edit(request.Title, request.Link, imageName, request.Position);
-        await _sliderRepository.Save();
         DeleteOldImage(request.ImageFile, oldImage);
+        await _sliderRepository.Save();
         return OperationResult.Success();
     }
 

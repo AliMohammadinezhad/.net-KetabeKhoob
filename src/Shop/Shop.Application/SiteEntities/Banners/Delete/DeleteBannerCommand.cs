@@ -25,8 +25,8 @@ public class DeleteBannerCommandHandler : IBaseCommandHandler<DeleteBannerComman
         if (slider == null) return OperationResult.NotFound();
 
         _bannerRepository.DeleteBanner(slider);
+        _fileService.DeleteFile(Directories.BannerImages, slider.ImageName);
         await _bannerRepository.Save();
-        _fileService.DeleteFile(Directories.SliderImages, slider.ImageName);
         return OperationResult.Success();
     }
 }

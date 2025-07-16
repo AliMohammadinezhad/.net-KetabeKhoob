@@ -34,14 +34,14 @@ public class EditBannerCommandHandler : IBaseCommandHandler<EditBannerCommand>
             );
 
         banner.Edit(request.Link, imageName, request.Position);
-        await _bannerRepository.Save();
         DeleteOldImage(request.ImageFile, oldImage);
+        await _bannerRepository.Save();
         return OperationResult.Success();
     }
 
     private void DeleteOldImage(IFormFile? imageFile, string oldImage)
     {
         if (imageFile is not null)
-            _fileService.DeleteFile(Directories.SliderImages, oldImage);
+            _fileService.DeleteFile(Directories.BannerImages, oldImage);
     }
 }

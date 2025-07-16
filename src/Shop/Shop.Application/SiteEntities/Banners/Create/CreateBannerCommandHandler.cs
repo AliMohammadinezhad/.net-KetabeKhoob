@@ -28,7 +28,7 @@ public class CreateBannerCommandHandler : IBaseCommandHandler<CreateBannerComman
             imageName,
             request.Position
         );
-        
+
         await _bannerRepository.AddAsync(banner);
         await _bannerRepository.Save();
         return OperationResult.Success();

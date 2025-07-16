@@ -10,6 +10,7 @@ public interface ISliderFacade
 {
     Task<OperationResult> CreateSlider(CreateSliderCommand command, CancellationToken cancellationToken = default);
     Task<OperationResult> EditSlider(EditSliderCommand command, CancellationToken cancellationToken = default);
+    Task<OperationResult> DeleteSlider(long sliderId, CancellationToken cancellationToken = default);
 
     Task<SliderDto?> GetSliderById(long id, CancellationToken cancellationToken = default);
     Task<List<SliderDto?>> GetSliderList(CancellationToken cancellationToken = default);

@@ -11,6 +11,7 @@ public interface IBannerFacade
 {
     Task<OperationResult> CreateBanner(CreateBannerCommand command, CancellationToken cancellationToken = default);
     Task<OperationResult> EditBanner(EditBannerCommand command, CancellationToken cancellationToken = default);
+    Task<OperationResult> DeleteBanner(long bannerId, CancellationToken cancellationToken = default);
 
     Task<BannerDto?> GetBannerById(long id, CancellationToken cancellationToken = default);
     Task<List<BannerDto?>> GetBannerList(CancellationToken cancellationToken = default);

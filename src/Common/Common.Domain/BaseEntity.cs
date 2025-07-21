@@ -6,6 +6,6 @@ public class BaseEntity
     public DateTime CreationDate { get; private set; }
     public BaseEntity()
     {
-        CreationDate = new DateTime();
+        CreationDate = DateTime.UtcNow;
     }
 }

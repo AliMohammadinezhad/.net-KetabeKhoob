@@ -12,6 +12,7 @@ public interface IProductFacade
     Task<OperationResult> AddProductImage(AddProductImageCommand command, CancellationToken cancellationToken = default);
     Task<OperationResult> CreateProduct(CreateProductCommand command, CancellationToken cancellationToken = default);
     Task<OperationResult> EditProduct(EditProductCommand command, CancellationToken cancellationToken = default);
+    Task<OperationResult> DeleteProductById(long productId, CancellationToken cancellationToken = default);
     Task<OperationResult> RemoveProductImage(RemoveProductImageCommand command, CancellationToken cancellationToken = default);
     
     

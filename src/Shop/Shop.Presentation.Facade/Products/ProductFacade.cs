@@ -1,6 +1,7 @@
 ﻿using Common.Application;
 using MediatR;
 using Shop.Application.Products.Create;
+using Shop.Application.Products.Delete;
 using Shop.Application.Products.Edit;
 using Shop.Application.Products.RemoveImage;
 using Shop.Application.Products.RemoveImage.AddImage;
@@ -36,6 +37,11 @@ internal class ProductFacade : IProductFacade
     public async Task<OperationResult> EditProduct(EditProductCommand command, CancellationToken cancellationToken = default)
     {
         return await _mediator.Send(command, cancellationToken);
+    }
+
+    public async Task<OperationResult> DeleteProductById(long productId, CancellationToken cancellationToken = default)
+    {
+        return await _mediator.Send(new DeleteProductCommand(productId), cancellationToken);
     }
 
     public async Task<OperationResult> RemoveProductImage(RemoveProductImageCommand command, CancellationToken cancellationToken = default)

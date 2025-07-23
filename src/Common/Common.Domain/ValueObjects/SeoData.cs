@@ -12,7 +12,7 @@ public class SeoData : ValueObject
     }
 
     public SeoData(string? metaKeyWords, string? metaDescription, string? metaTitle, bool indexPage, string? canonical,
-        string schema)
+        string? schema)
     {
         MetaKeyWords = metaKeyWords;
         MetaDescription = metaDescription;

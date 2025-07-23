@@ -27,7 +27,7 @@ public class CreateProductCommandHandler : IBaseCommandHandler<CreateProductComm
     {
         var imageName = await _fileService.SaveFileAndGenerateName(request.ImageFile, Directories.ProductImages);
         var product = new Product(request.Title, imageName, request.Description, request.CategoryId,
-            request.SecondarySubCategoryId, request.SecondarySubCategoryId,request.Slug, request.SeoData, _productDomainService);
+            request.SubCategoryId, request.SecondarySubCategoryId,request.Slug, request.SeoData, _productDomainService);
 
         await _productRepository.AddAsync(product);
 

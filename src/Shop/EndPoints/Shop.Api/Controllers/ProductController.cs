@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shop.Api.Infrastructure.Security;
+using Shop.Api.ViewModels.Products;
 using Shop.Application.Products.Create;
 using Shop.Application.Products.Edit;
 using Shop.Application.Products.RemoveImage;
@@ -45,6 +46,13 @@ public class ProductController : ApiController
         return QueryResult(product);
     }
 
+    [HttpDelete("{productId:long}")]
+    public async Task<ApiResult> DeleteProductById(long productId)
+    {
+        var product = await _productFacade.DeleteProductById(productId);
+        return CommandResult(product);
+    }
+
     [AllowAnonymous]
     [HttpGet("bySlug/{productSlug}")]
     public async Task<ApiResult<ProductDto?>> GetProductBySlug([FromRoute] string productSlug)
@@ -54,9 +62,12 @@ public class ProductController : ApiController
     }
 
     [HttpPost]
-    public async Task<ApiResult> CreateProduct([FromForm] CreateProductCommand command)
+    public async Task<ApiResult> CreateProduct([FromForm] CreateProductViewModel command)
     {
-        var result = await _productFacade.CreateProduct(command);
+        var result = await _productFacade.CreateProduct(new CreateProductCommand(
+            command.Title, command.ImageFile, command.Description, command.CategoryId,
+            command.SubCategoryId, command.SecondarySubCategoryId, command.Slug,
+            command.SeoData.Map(), command.GetSpecification()));
         return CommandResult(result);
     }
 
@@ -75,9 +86,12 @@ public class ProductController : ApiController
     }
 
     [HttpPut]
-    public async Task<ApiResult> EditProduct([FromForm] EditProductCommand command)
+    public async Task<ApiResult> EditProduct([FromForm] EditProductViewModel command)
     {
-        var result = await _productFacade.EditProduct(command);
+        var result = await _productFacade.EditProduct(new EditProductCommand(
+            command.ProductId, command.Title, command.ImageFile, command.Description, command.CategoryId,
+            command.SubCategoryId, command.SecondarySubCategoryId, command.Slug,
+            command.SeoData.Map(), command.GetSpecification()));
         return CommandResult(result);
     }
 }

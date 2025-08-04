@@ -61,6 +61,14 @@ public class ProductController : ApiController
         return QueryResult(product);
     }
 
+    [AllowAnonymous]
+    [HttpGet("single/{productSlug}")]
+    public async Task<ApiResult<SingleProductDto?>> GetSingleProduct([FromRoute] string productSlug)
+    {
+        var product = await _productFacade.GetProductBySlugForSinglePage(productSlug);
+        return QueryResult(product);
+    }
+
     [HttpPost]
     public async Task<ApiResult> CreateProduct([FromForm] CreateProductViewModel command)
     {

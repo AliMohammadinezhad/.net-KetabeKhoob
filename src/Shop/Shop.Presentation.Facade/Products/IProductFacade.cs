@@ -4,6 +4,7 @@ using Shop.Application.Products.Edit;
 using Shop.Application.Products.RemoveImage;
 using Shop.Application.Products.RemoveImage.AddImage;
 using Shop.Query.Products.DTOs;
+using Shop.Query.Sellers.DTOs;
 
 namespace Shop.Presentation.Facade.Products;
 
@@ -21,4 +22,11 @@ public interface IProductFacade
     Task<ProductShopResult?> GetProductsForShop(ProductShopFilterParam filterParams,
         CancellationToken cancellationToken = default);
     Task<ProductDto?> GetProductBySlug(string slug, CancellationToken cancellationToken = default);
+    Task<SingleProductDto?> GetProductBySlugForSinglePage(string slug, CancellationToken cancellationToken = default);
+}
+
+public class SingleProductDto
+{
+    public ProductDto Product { get; set; }
+    public List<InventoryDto> Inventories { get; set; }
 }

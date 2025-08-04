@@ -5,6 +5,7 @@ using Shop.Application.Sellers.ChangeStatus;
 using Shop.Application.Sellers.EditInventory;
 using Shop.Query.Sellers.DTOs;
 using Shop.Query.Sellers.Inventories.GetById;
+using Shop.Query.Sellers.Inventories.GetByProductId;
 using Shop.Query.Sellers.Inventories.GetList;
 
 namespace Shop.Presentation.Facade.Sellers.Inventories;
@@ -37,6 +38,11 @@ internal class SellerInventoryFacade : ISellerInventoryFacade
     public async Task<InventoryDto?> GetSellerInventoryById(long inventoryId)
     {
         return await _mediator.Send(new GetSellerInventoryByIdQuery(inventoryId));
+    }
+
+    public async Task<List<InventoryDto>> GetSellerInventoryListByProductId(long productId)
+    {
+        return await _mediator.Send(new GetInventoriesByProductIdQuery(productId));
     }
 
     public async Task<List<InventoryDto?>> GetSellerInventoryList(long sellerId)

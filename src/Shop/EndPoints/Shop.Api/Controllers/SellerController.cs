@@ -90,6 +90,16 @@ public class SellerController : ApiController
 
         return QueryResult(result);
     }
+    
+    [HttpGet("Inventory/{productId}")]
+    [PermissionChecker(Permission.SellerPanel)]
+    public async Task<ApiResult<List<InventoryDto>>> GetInventoryListByProductId(long productId)
+    {
+        
+        List<InventoryDto> result = await _sellerInventoryFacade.GetSellerInventoryListByProductId(productId);
+        
+        return QueryResult(result)!;
+    }
 
     [PermissionChecker(Permission.AddInventory)]
     [HttpPost("Inventory")]

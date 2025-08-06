@@ -19,6 +19,9 @@ public class GetCommentByFilterQueryHandler : IQueryHandler<GetCommentByFilterQu
         var param = request.FilterParams;
         var result = _context.Comments.OrderByDescending(x => x.CreationDate).AsQueryable();
 
+        if (param.ProductId is not null)
+            result = result.Where(x => x.ProductId == param.ProductId);
+
         if (param.Status is not null)
             result = result.Where(x => x.Status == param.Status);
 

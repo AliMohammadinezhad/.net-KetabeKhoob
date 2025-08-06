@@ -10,6 +10,7 @@ public interface ICommentFacade
 {
     Task<OperationResult> ChangeStatus(ChangeCommentStatusCommand command, CancellationToken cancellationToken = default);
     Task<OperationResult> CreateComment(CreateCommentCommand command, CancellationToken cancellationToken = default);
+    Task<OperationResult> DeleteComment(long commentId, CancellationToken cancellationToken = default);
     Task<OperationResult> EditComment(EditCommentCommand command, CancellationToken cancellationToken = default);
 
     Task<CommentDto?> GetCommentById(long id, CancellationToken cancellationToken = default);

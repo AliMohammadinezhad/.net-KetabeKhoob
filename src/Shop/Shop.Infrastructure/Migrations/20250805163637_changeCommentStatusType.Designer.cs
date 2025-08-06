@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Shop.Infrastructure.Persistent.Ef;
 
@@ -11,9 +12,11 @@ using Shop.Infrastructure.Persistent.Ef;
 namespace Shop.Infrastructure.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20250805163637_changeCommentStatusType")]
+    partial class changeCommentStatusType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -665,8 +668,9 @@ namespace Shop.Infrastructure.Migrations
                             b1.Property<DateTime>("CreationDate")
                                 .HasColumnType("datetime2");
 
-                            b1.Property<int>("Permission")
-                                .HasColumnType("int");
+                            b1.Property<string>("Permission")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
 
                             b1.HasKey("RoleId", "Id");
 

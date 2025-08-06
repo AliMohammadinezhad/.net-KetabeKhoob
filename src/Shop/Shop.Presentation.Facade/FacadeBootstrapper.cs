@@ -28,5 +28,6 @@ public static class FacadeBootstrapper
         services.AddScoped<ISellerInventoryFacade, SellerInventoryFacade>();
         services.AddScoped<IUserFacade, UserFacade>();
         services.AddScoped<IUserAddressFacade, UserAddressFacade>();
+        services.AddDistributedMemoryCache();
     }
 }

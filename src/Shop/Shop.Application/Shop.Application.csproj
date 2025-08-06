@@ -13,6 +13,7 @@
     <Folder Include="Categories\Remove\" />
     <Folder Include="Comments\Create\" />
     <Folder Include="Comments\Edit\" />
+    <Folder Include="Comments\Delete\" />
     <Folder Include="_Utilities\" />
     <Folder Include="Orders\DecreaseItemCount\" />
     <Folder Include="Products\AddImage\" />

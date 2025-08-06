@@ -2,6 +2,7 @@
 using MediatR;
 using Shop.Application.Comments.ChangeStatus;
 using Shop.Application.Comments.Create;
+using Shop.Application.Comments.Delete;
 using Shop.Application.Comments.Edit;
 using Shop.Infrastructure.Persistent.Ef;
 using Shop.Query.Comments.DTOs;
@@ -28,6 +29,11 @@ internal class CommentFacade : ICommentFacade
     public async Task<OperationResult> CreateComment(CreateCommentCommand command, CancellationToken cancellationToken = default)
     {
         return await _mediator.Send(command, cancellationToken);
+    }
+
+    public async Task<OperationResult> DeleteComment(long commentId, CancellationToken cancellationToken = default)
+    {
+        return await _mediator.Send(new DeleteCommentCommand(commentId), cancellationToken);
     }
 
     public async Task<OperationResult> EditComment(EditCommentCommand command, CancellationToken cancellationToken = default)

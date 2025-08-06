@@ -4,4 +4,5 @@ namespace Shop.Domain.CommentAgg;
 
 public interface ICommentRepository : IBaseRepository<Comment>
 {
+    Task DeleteComment(Comment comment);
 }

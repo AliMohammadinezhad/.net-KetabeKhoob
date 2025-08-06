@@ -17,7 +17,6 @@ public class CommentConfiguration : IEntityTypeConfiguration<Comment>
             .IsRequired();
 
         builder.Property(x => x.Status)
-            .IsRequired()
-            .HasConversion<string>();
+            .IsRequired();
     }
 }

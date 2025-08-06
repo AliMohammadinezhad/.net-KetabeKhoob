@@ -21,8 +21,7 @@ public class RoleConfiguration : IEntityTypeConfiguration<Role>
             navigationBuilder.ToTable("Permissions", "roles");
             navigationBuilder.HasIndex(x => x.RoleId);
             
-            navigationBuilder.Property(x => x.Permission)
-                .HasConversion<string>();
+            navigationBuilder.Property(x => x.Permission);
         });
     }
 }

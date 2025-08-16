@@ -1,6 +1,8 @@
 ﻿using Common.Application;
 using Common.Application.SecurityUtil;
+using Common.CacheHelper;
 using MediatR;
+using Microsoft.Extensions.Caching.Distributed;
 using Shop.Application.Users.AddToken;
 using Shop.Application.Users.ChangePassword;
 using Shop.Application.Users.ChargeWallet;
@@ -21,10 +23,12 @@ namespace Shop.Presentation.Facade.Users;
 internal class UserFacade : IUserFacade
 {
     private readonly IMediator _mediator;
+    private readonly IDistributedCache _distributedCache;
 
-    public UserFacade(IMediator mediator)
+    public UserFacade(IMediator mediator, IDistributedCache distributedCache)
     {
         _mediator = mediator;
+        _distributedCache = distributedCache;
     }
 
     public async Task<OperationResult> ChargeUserWallet(ChargeUserWalletCommand command, CancellationToken cancellationToken = default)
@@ -38,8 +42,11 @@ internal class UserFacade : IUserFacade
     }
 
    public async Task<OperationResult> EditUser(EditUserCommand command, CancellationToken cancellationToken = default)
-    {
-        return await _mediator.Send(command, cancellationToken);
+   {
+       var result = await _mediator.Send(command, cancellationToken);
+       if (result.Status == OperationResultStatus.Success)
+           await _distributedCache.RemoveAsync(CacheKeys.User(command.UserId), cancellationToken);
+       return result;
     }
 
    
@@ -55,11 +62,17 @@ internal class UserFacade : IUserFacade
 
     public async Task<OperationResult> RemoveUserToken(RemoveUserTokenCommand command, CancellationToken cancellationToken = default)
     {
-        return await _mediator.Send(command, cancellationToken);
+        var result = await _mediator.Send(command, cancellationToken);
+        if(result.Status != OperationResultStatus.Success)
+            return OperationResult.Error();
+
+        await _distributedCache.RemoveAsync(CacheKeys.UserToken(result.Data), cancellationToken);
+        return OperationResult.Success();
     }
 
     public async Task<OperationResult> ChangePassword(ChangeUserPasswordCommand command, CancellationToken cancellationToken = default)
     {
+        await _distributedCache.RemoveAsync(CacheKeys.User(command.UserId), cancellationToken);
         return await _mediator.Send(command, cancellationToken);
     }
 
@@ -70,19 +83,19 @@ internal class UserFacade : IUserFacade
 
     public async Task<UserDto?> GetUserById(long id, CancellationToken cancellationToken = default)
     {
-        return await _mediator.Send(new GetUserByIdQuery(id), cancellationToken);
+        return await _distributedCache.GetOrSet(CacheKeys.User(id), async () => await _mediator.Send(new GetUserByIdQuery(id), cancellationToken));
     }
 
     public async Task<UserTokenDto?> GetUserTokenByRefreshToken(string refreshToken, CancellationToken cancellationToken = default)
     {
         var hashRefreshToken = Sha256Hasher.Hash(refreshToken);
-        return await _mediator.Send(new GetUserTokenByRefreshTokenQuery(hashRefreshToken), cancellationToken);
+        return await _distributedCache.GetOrSet(CacheKeys.UserToken(refreshToken), async () => await _mediator.Send(new GetUserTokenByRefreshTokenQuery(hashRefreshToken), cancellationToken));
     }
 
     public async Task<UserTokenDto?> GetUserTokenByAccessToken(string accessToken, CancellationToken cancellationToken = default)
     {
         var hashAccessToken = Sha256Hasher.Hash(accessToken);
-        return await _mediator.Send(new GetUserTokenByAccessTokenQuery(hashAccessToken), cancellationToken);
+        return await _distributedCache.GetOrSet(CacheKeys.UserToken(accessToken), async () => await _mediator.Send(new GetUserTokenByAccessTokenQuery(hashAccessToken), cancellationToken));
     }
 
     public async Task<UserDto?> GetUserByPhoneNumber(string phoneNumber, CancellationToken cancellationToken = default)

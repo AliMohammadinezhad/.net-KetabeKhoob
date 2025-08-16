@@ -3,7 +3,7 @@ using Shop.Domain.UserAgg.Repository;
 
 namespace Shop.Application.Users.RemoveToken;
 
-public class RemoveUserTokenCommandHandler : IBaseCommandHandler<RemoveUserTokenCommand>
+public class RemoveUserTokenCommandHandler : IBaseCommandHandler<RemoveUserTokenCommand, string>
 {
     private readonly IUserRepository _userRepository;
 
@@ -12,14 +12,14 @@ public class RemoveUserTokenCommandHandler : IBaseCommandHandler<RemoveUserToken
         _userRepository = userRepository;
     }
 
-    public async Task<OperationResult> Handle(RemoveUserTokenCommand request, CancellationToken cancellationToken)
+    public async Task<OperationResult<string>> Handle(RemoveUserTokenCommand request, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetTracking(request.UserId);
         if (user is null)
-            return OperationResult.NotFound();
+            return OperationResult<string>.NotFound();
 
-        user.RemoveToken(request.TokenId);
+        var token = user.RemoveToken(request.TokenId);
         await _userRepository.Save();
-        return OperationResult.Success();
+        return OperationResult<string>.Success(token);
     }
 }

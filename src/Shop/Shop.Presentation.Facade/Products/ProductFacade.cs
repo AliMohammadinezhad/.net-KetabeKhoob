@@ -56,6 +56,8 @@ internal class ProductFacade : IProductFacade
 
     public async Task<OperationResult> DeleteProductById(long productId, CancellationToken cancellationToken = default)
     {
+        var product = await GetProductById(productId, cancellationToken);
+        await _cache.RemoveAsync(CacheKeys.Product(product.Slug), cancellationToken);
         return await _mediator.Send(new DeleteProductCommand(productId), cancellationToken);
     }
 

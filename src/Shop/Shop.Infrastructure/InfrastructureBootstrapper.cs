@@ -35,7 +35,7 @@ public static class InfrastructureBootstrapper
         service.AddTransient<IBannerRepository, BannerRepository>();
         service.AddTransient<ISliderRepository, SliderRepository>();
         service.AddTransient<IUserRepository, UserRepository>();
-
+        service.AddTransient<DatabaseSeeder>();
 
         service.AddTransient(_ => new DapperContext(connectionString));
         service.AddDbContext<ShopContext>(option => option.UseSqlServer(connectionString));

@@ -7,9 +7,10 @@ public class UserRole : BaseEntity
 {
     public long UserId { get; internal set; }
     public long RoleId { get; private set; }
-    public UserRole(long roleId)
+    public UserRole(long roleId, long userId)
     {
         RoleId = roleId;
+        UserId = userId;
     }
 
     private UserRole()

@@ -10,6 +10,7 @@ using Common.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Shop.Api.Infrastructure;
+using Shop.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,17 +34,13 @@ builder.Services.AddControllers()
         });
     })
     .AddJsonOptions(options =>
-{
-    // options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); ==> change from string enum to numbers
-    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-
-});
+    {
+        // options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()); ==> change from string enum to numbers
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddStackExchangeRedisCache(options =>
-{
-    options.Configuration = "localhost:6379";
-});
+builder.Services.AddStackExchangeRedisCache(options => { options.Configuration = "redis:6379"; });
 builder.Services.AddSwaggerGen(options =>
 {
     var jwtSecurityScheme = new OpenApiSecurityScheme
@@ -64,7 +61,7 @@ builder.Services.AddSwaggerGen(options =>
     options.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
-        {jwtSecurityScheme, Array.Empty<string>()}
+        { jwtSecurityScheme, Array.Empty<string>() }
     });
 });
 
@@ -80,10 +77,19 @@ builder.Services.AddTransient<IFileService, FileService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+switch (app.Environment.EnvironmentName)
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    case "Development" or "DockerDevelopment":
+        app.UseSwagger();
+        app.UseSwaggerUI();
+        break;
+}
+
+if (app.Configuration.GetValue<bool>("SeedDatabase"))
+{
+    using var scope = app.Services.CreateScope();
+    var seeder = scope.ServiceProvider.GetRequiredService<DatabaseSeeder>();
+    seeder.Seed();
 }
 
 app.UseRateLimiter();

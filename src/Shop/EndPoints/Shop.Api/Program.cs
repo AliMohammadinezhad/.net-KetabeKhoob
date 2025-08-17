@@ -86,6 +86,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseRateLimiter();
+
 app.UseApiCustomExceptionHandler();
 
 app.UseHttpsRedirection();
